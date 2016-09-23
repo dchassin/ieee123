@@ -1,0 +1,57 @@
+// IEEE 123 realtime demo load
+// by dchassin@slac.stanford.edu
+//
+// This GLM converts a static load into into an specified number of houses
+// Parameters:
+//
+//   LOADID - specifies the load number to convert
+//   PHASE  - specifies the split phase on which the load is placed
+//   COUNT  - specifies the number of houses to connect
+//
+// Example usage:
+//
+//   #include using(LOADID=1,PHASE=A,COUNT=4) "load.glm"
+//
+ 
+#debug Converting static load ${LOADID} phase ${PHASE} to ${COUNT} houses
+
+// remove static load
+modify load_${LOADID}.constant_power_${PHASE} 0+0j;	
+modify load_${LOADID}.constant_current_${PHASE} 0+0j;	
+modify load_${LOADID}.constant_impedance_${PHASE} 0+0j;	
+
+// add dynamic load
+object transformer {
+	name xfrm_${LOADID}${PHASE};
+	phases ${PHASE}S;
+	from load_${LOADID};
+	to node_${LOADID}${PHASE};
+	configuration xfmr_config;
+}
+object node {
+	name node_${LOADID}${PHASE};
+	phases ${PHASE}S;
+	nominal_voltage 120;
+}
+object triplex_meter:..${COUNT} { 
+	name `meter_{SEQ_CUSTID:INC}`;
+	parent node_${LOADID}${PHASE};
+	phases ${PHASE}S;
+	nominal_voltage 120;
+	latitude (load_${LOADID}.latitude);
+	longitude (load_${LOADID}.longitude);
+	object house { 
+		floor_area random.triangle(1000,2000);
+		name `house_{SEQ_CUSTID}`;
+	}; 
+#ifdef MYSQL_AMI
+	object recorder {
+		connection ami;
+		table meter;
+		property "measured_voltage_1,measured_voltage_2,measured_demand,measured_real_power,measured_reactive_power,measured_real_energy,measured_reactive_energy";
+		interval 900;
+		header_fieldnames "name";
+	};
+#endif
+}
+

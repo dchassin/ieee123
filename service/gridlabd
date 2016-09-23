@@ -1,0 +1,94 @@
+### BEGIN INIT INFO
+# Provides:          gridlabd
+# Required-Start:    $local_fs
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     false
+# Short-Description: GridLAB-D Realtime Simulator
+# Description:       GridLAB-D realtime simulation that provides services on port 6267.
+### END INIT INFO
+
+DESC="GridLAB-D Realtime Simulator"
+NAME=gridlabd
+#DAEMON=
+HOME=~gridlabd
+LOGDIR=/var/log/gridlabd
+STDLOG=gridlabd.log
+ERRLOG=gridlabd.err
+PATH=$HOME/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+source /etc/gridlabd.conf
+cd $HOME
+mkdir -p $LOGDIR
+
+do_status()
+{
+	if [ -f $HOME/gridlabd.pid ]; then
+		PID=$(cat $HOME/gridlabd.pid)
+		if [ x$PID == x ]; then
+			echo "gridlabd.pid is empty"
+		elif [ $(ps --no-headers -q $PID | cut -c25-)x != gridlabd.binx ]; then
+			echo "gridlabd.pid is mismatched"
+		else
+			echo "gridlabd is running"
+		fi
+	else
+		echo  "gridlabd is not running"
+	fi
+}
+
+do_start()
+{
+	if [ ! -f $HOME/gridlabd.pid ]; then
+		echo -n "starting gridlabd..."
+		su gridlabd -c "gridlabd -V --pidfile=gridlabd.pid gridlabd.glm" 1>$LOGDIR/$STDLOG 2>$LOGDIR/$ERRLOG &
+		while [ ! -f $HOME/gridlabd.pid ]; do
+			sleep 1
+			echo -n "."
+		done
+		echo "ok"
+	else
+		do_status
+	fi
+}
+
+do_stop()
+{
+	if [ -f $HOME/gridlabd.pid ]; then
+		PID=$(cat $HOME/gridlabd.pid)
+		if [ x$PID == x ]; then
+			echo "gridlabd.pid is empty"
+		elif [ $(ps --no-headers -q $PID | cut -c25-)x != gridlabd.binx ]; then
+			echo "gridlabd.pid is mismatched"
+		else
+			echo -n "stopping gridlabd"
+			kill $PID
+			while [ $(ps --no-headers -q $PID | cut -c25-)x == gridlabd.binx ]; do
+				sleep 1
+				echo -n "."
+			done
+			echo "ok"
+		fi
+	else
+		do_status
+	fi
+}
+
+case "$1" in
+status)
+	do_status
+	;;
+start)
+	do_start
+	;;
+stop)
+	do_stop
+	;;
+restart)
+	do_stop
+	do_start
+	;;
+esac
+
+exit 0

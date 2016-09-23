@@ -1,0 +1,286 @@
+// IEEE 123 realtime demo
+// by dchassin@slac.stanford.edu
+
+// option to enable historical run
+//#define HISTORY_YEAR=2016
+#define STATE=CA
+#define CITY=Bakersfield
+
+// options for data collection
+#define MYSQL_MODEL=ieee123_model // enable output of power system model
+#define MYSQL_SCADA=ieee123_scada // enable output of SCADA recordings
+#define MYSQL_AMI=ieee123_ami // enable output of AMI recordings
+//#define VOLTDUMP=voltage.csv // enable dump of voltage logfile
+//#define CURRDUMP=current.csv // enable dump of current logfile
+
+///////////////////////////////////////////////////////
+// REALTIME SERVER SETUP
+///////////////////////////////////////////////////////
+
+#ifndef HISTORY_YEAR
+#option server
+#set hostname=gridlabd.slac.stanford.edu
+#set run_realtime=1
+#set server_portnum=6267
+#set suppress_repeat_messages=FALSE
+#set client_allowed=134.79.
+#else
+clock {
+	timezone US/CA/Los Angeles;
+	starttime '${HISTORY_YEAR}-01-01 00:00:00 PST';
+	stoptime '${HISTORY_YEAR}-12-31 23:59:59 PST';
+}
+#endif
+
+///////////////////////////////////////////////////////
+// WEATHER
+///////////////////////////////////////////////////////
+
+module climate;
+class climate {
+        double elevation[m];
+}
+object climate {
+        name weather;
+        city "${CITY} ${STATE}";
+        tmyfile "${STATE}-${CITY}.tmy2";
+        elevation 150;
+        interpolate QUADRATIC;
+}
+
+///////////////////////////////////////////////////////
+// POWER SYSTEM MODEL
+///////////////////////////////////////////////////////
+#print Loading power system model...
+module powerflow {
+	solver_method NR;
+	line_capacitance true;
+}
+
+#ifdef VOLTDUMP
+object voltdump {
+	filename ${VOLTDUMP};
+	group "nodevolts";
+	mode polar;
+}
+#endif
+#ifdef CURRDUMP
+object currdump {
+	filename ${CURRDUMP};
+	mode rect;
+}
+#endif
+
+// powerflow component configurations
+#include "library.glm";
+
+// power system topology
+#include "feeder.glm";
+
+// power system geoinformation
+#include "geolocation.glm";
+
+///////////////////////////////////////////////////////
+// LOAD MODEL
+///////////////////////////////////////////////////////
+module residential;
+object transformer_configuration {
+	name xfmr_config;
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	install_type POLETOP;
+	powerA_rating 75;
+	powerB_rating 75;
+	powerC_rating 75;
+	primary_voltage 2401;
+	secondary_voltage 120.000;
+	impedance 0.006+0.0136j;
+}
+///////////////////////////////////////////////////////
+// FEEDER CONTROLS
+///////////////////////////////////////////////////////
+
+// TODO: add regulator and capbank controllers
+
+///////////////////////////////////////////////////////
+// MYSQL DATABASE SUPPORT
+///////////////////////////////////////////////////////
+#print Setting up database...
+module mysql {
+	hostname "localhost";
+	username "gridlabd";
+	password "gridlabd";
+	socketname "/var/lib/mysql/mysql.sock";
+}
+#ifdef MYSQL_SCADA
+object database {
+	name scada;
+	hostname "localhost";
+	username "gridlabd";
+	schema "ieee123_scada";
+	password "gridlabd";
+}
+#endif
+#ifdef MYSQL_AMI
+object database {
+	name ami;
+	hostname "localhost";
+	username "gridlabd";
+	schema "ieee123_ami";
+	password "gridlabd";
+}
+#endif
+	
+
+///////////////////////////////////////////////////////
+// LOAD MODEL
+///////////////////////////////////////////////////////
+#print Loading houses...
+global int32 SEQ_CUSTID 0;
+#set allow_reinclude=true
+#include "loads.glm"
+
+///////////////////////////////////////////////////////
+// DATA COLLECTION
+///////////////////////////////////////////////////////
+#print Setting up SCADA system
+// SCADA recorders
+#ifdef MYSQL_SCADA
+
+// switches
+object recorder {
+	connection scada;
+	table switch;
+	parent sw13to152;
+	property "phase_A_state,phase_B_state,phase_C_state";
+	interval 4;
+	header_fieldnames "name";
+}
+
+object recorder {
+	connection scada;
+	table switch;
+	parent sw18to135;
+	property "phase_A_state,phase_B_state,phase_C_state";
+	interval 4;
+	header_fieldnames "name";
+}
+
+object recorder {
+	connection scada;
+	table switch;
+	parent sw60to160;
+	property "phase_A_state,phase_B_state,phase_C_state";
+	interval 4;
+	header_fieldnames "name";
+}
+
+object recorder {
+	connection scada;
+	table switch;
+	parent sw61to6101;
+	property "phase_A_state,phase_B_state,phase_C_state";
+	interval 4;
+	header_fieldnames "name";
+}
+
+object recorder {
+	connection scada;
+	table switch;
+	parent sw97to197;
+	property "phase_A_state,phase_B_state,phase_C_state";
+	interval 4;
+	header_fieldnames "name";
+}
+
+object recorder {
+	connection scada;
+	table switch;
+	parent sw15001to149;
+	property "phase_A_state,phase_B_state,phase_C_state";
+	interval 4;
+	header_fieldnames "name";
+}
+
+// regulators
+object recorder {
+	connection scada;
+	table regulator;
+	parent reg150to15001; 
+	property "power_in,power_out,tap_A,tap_B,tap_C";
+	interval 4;
+	header_fieldnames "name";
+}
+object recorder {
+	connection scada;
+	table regulator;
+	parent reg9to901; 
+	property "power_in,power_out,tap_A,tap_B,tap_C";
+	interval 4;
+	header_fieldnames "name";
+}
+object recorder {
+	connection scada;
+	table regulator;
+	parent reg25to2501; 
+	property "power_in,power_out,tap_A,tap_B,tap_C";
+	interval 4;
+	header_fieldnames "name";
+}
+object recorder {
+	connection scada;
+	table regulator;
+	parent reg160to16001; 
+	property "power_in,power_out,tap_A,tap_B,tap_C";
+	interval 4;
+	header_fieldnames "name";
+}
+object recorder {
+	connection scada;
+	table regulator;
+	parent reg9to901; 
+	property "power_in,power_out,tap_A,tap_B,tap_C";
+	interval 4;
+	header_fieldnames "name";
+}
+
+// capacitors
+object recorder {
+	connection scada;
+	table capacitor;
+	parent cap_83;
+	property "voltage_A,voltage_B,voltage_C,switchA,switchB,switchC";
+	interval 4;
+	header_fieldnames "name";
+}
+object recorder {
+	connection scada;
+	table capacitor;
+	parent cap_88;
+	property "voltage_A,switchA";
+	interval 4;
+	header_fieldnames "name";
+}
+object recorder {
+	connection scada;
+	table capacitor;
+	parent cap_90;
+	property "voltage_B,switchB";
+	interval 4;
+	header_fieldnames "name";
+}
+object recorder {
+	connection scada;
+	table capacitor;
+	parent cap_92;
+	property "voltage_C,switchC";
+	interval 4;
+	header_fieldnames "name";
+}
+#endif
+
+#ifdef MYSQL_MODEL
+#print Exporting system model...
+export mysql ieee123_model;
+#endif
+
+#print Loading complete.

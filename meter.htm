@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+<TITLE>Meters</TITLE>
+</HEAD>
+
+<BODY ONLOAD="refresh();">
+
+<SCRIPT src="gridlabd.js"></SCRIPT>
+
+<A HREF="control.htm">Simulation</A> 
+<A HREF="weather.htm">Weather</A>
+<A HREF="feeder.htm">Feeder</A>
+<A HREF="meter.htm">Meter</A>
+<A HREF="/kml/model.kml">Map</A>
+
+<TABLE WIDTH="100%">
+	<TR><TH COLSPAN=7>Meter<HR/></TH></TR>
+	<TR><TD>Date/Time</TD><TD COLSPAN=7><DIV ID="clock"></DIV></TD></TR>
+	<TR><TH COLSPAN=7><HR/></TH></TR>
+	
+	<TR><TH ALIGN=LEFT>Customer</TH><TH ALIGN=LEFT>Status</TH><TH ALIGN=LEFT>Control</TH><TH ALIGN=LEFT>Demand</TH><TH ALIGN=LEFT>Energy</TH><TH ALIGN=LEFT>Voltage 1</TH><TH ALIGN=LEFT>Voltage 2</TH></TR>
+	<TR><TH ALIGN=LEFT COLSPAN=7><HR/></TH></TR>
+
+<SCRIPT TYPE="text/javascript">
+	var rows = [1,2,4,5,6,7,9,10,11,12,16,17,19,20,22,24,28,29,30,31,32,33,34,35,37,38,39,41,42,43,45,46,47,48,49,50,51,52,53,55,56,58,59,60,62,63,64,65,66,68,69,70,71,73,74,75,76,77,79,80,82,83,84,85,86,87,88,90,92,94,95,96,98,99,100,102,103,104,106,107,109,111,112,113,114];
+	for ( i in rows ) 
+	{
+		var id = rows[i];
+		document.writeln('<TR><TD>'+id+'</TD>'
+			+ '<TD><DIV ID="meter_'+id+'_status"></DIV></TD>'
+			+ '<TD><INPUT TYPE="submit" VALUE="DISCONNECT" ONCLICK="GLDSetProperty(\'meter_'+id+'\',\'service_status\',\'OUT_OF_SERVICE\');" />'
+			+ '<INPUT TYPE="submit" VALUE="CONNECT" ONCLICK="GLDSetProperty(\'meter_'+id+'\',\'service_status\',\'IN_SERVICE\');" /></TD>'
+			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?xinterval=4&rev=1&title=Meter '+id+' Demand&query=SELECT t as x, measured_real_power as y FROM ieee123_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_power"></DIV></A></TD>'
+			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?diff=1&pos=1&rev=1&bar=1&xinterval=4&title=Meter '+id+'i Interval Energy&query=SELECT t as x, measured_real_energy*4 as y FROM ieee123_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_energy"></DIV></A></TD>'
+			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?xinterval=4&rev=1&title=Meter '+id+' Voltage (1)&ymin=110&ymax=130&query=SELECT t as x, cast(measured_voltage_1 as decimal(8,1)) as y FROM ieee123_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_voltage_1"></DIV></A></TD>'
+			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?xinterval=4&rev=1&title=Meter '+id+' Voltage (2)&ymin=110&ymax=130&query=SELECT t as x, cast(measured_voltage_2 as decimal(8,1)) as y FROM ieee123_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_voltage_2"></DIV></A></TD>'
+			+ '</TR>');
+	}
+</SCRIPT>
+</TABLE>
+<HR/>
+<TABLE WIDTH="100%">
+	<TR><TD WIDTH=500></TD><TD WIDTH=50>Status</TD><TD WIDTH=50><DIV ID="status">Initializing</DIV></TD></TR>
+</TABLE>
+
+</BODY>
+
+<SCRIPT type="text/javascript">
+	var count = 0;
+	function refresh()
+	{
+		count = count + 1;
+	    setTimeout("refresh()",900000);
+	    if ( count == 1 )
+		    document.getElementById("status").innerHTML = "Updating";
+		else
+		    document.getElementById("status").innerHTML = "Update failed";			    
+	    document.getElementById("clock").innerHTML = GLDGetGlobal("clock");
+	    for ( var i in rows ) 
+	    {
+	    	var id = rows[i];
+			document.getElementById("meter_"+id+"_status").innerHTML = GLDGetProperty("meter_"+id,"service_status");
+	    	document.getElementById("meter_"+id+"_power").innerHTML = GLDGetProperty("meter_"+id,"measured_real_power[kW,1f]");
+	    	document.getElementById("meter_"+id+"_energy").innerHTML = GLDGetProperty("meter_"+id,"measured_real_energy[kWh,1f]");
+	    	document.getElementById("meter_"+id+"_voltage_1").innerHTML = GLDGetProperty("meter_"+id,"voltage_1[V,1fM]");
+	    	document.getElementById("meter_"+id+"_voltage_2").innerHTML = GLDGetProperty("meter_"+id,"voltage_2[V,1fM]");
+		    }
+	    document.getElementById("status").innerHTML = "Ok";
+	    count = 0;
+	}
+</SCRIPT>
+
+</HTML>

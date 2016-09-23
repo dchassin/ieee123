@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+<TITLE>Feeder</TITLE>
+</HEAD>
+
+<BODY ONLOAD="refresh();">
+
+<SCRIPT src="gridlabd.js"></SCRIPT>
+
+<A HREF="control.htm">Simulation</A> 
+<A HREF="weather.htm">Weather</A>
+<A HREF="feeder.htm">Feeder</A>
+<A HREF="meter.htm">Meter</A>
+<A HREF="/kml/model.kml">Map</A>
+
+<TABLE WIDTH="100%">
+	<TR><TH COLSPAN=4>Feeder<HR/></TH></TR>
+	<TR><TD>Date/Time</TD><TD COLSPAN=3><DIV ID="clock"></DIV></TD></TR>
+	<TR><TH COLSPAN=4><HR/></TH></TR>
+
+	<TR><TH ALIGN=LEFT COLSPAN=4>Switches</TH></TR>
+	<TR><TD>13-152 ABC</TD><TD><DIV ID="sw13to152"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw13to152','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw13to152','status','CLOSED');" />
+	</TD></TR>
+	<TR><TD>18-135 ABC</TD><TD><DIV ID="sw18to135"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw18to135','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw18to135','status','CLOSED');" />
+	</TD></TR>
+	<TR><TD>60-160 ABC</TD><TD><DIV ID="sw60to160"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw60to160','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw60to160','status','CLOSED');" />
+	</TD></TR>
+	<TR><TD>61-6101 ABC</TD><TD><DIV ID="sw61to6101"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw61to6101','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw61to6101','status','CLOSED');" />
+	</TD></TR>
+	<TR><TD>97-197 ABC</TD><TD><DIV ID="sw97to197"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw97to197','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw97to197','status','CLOSED');" />
+	</TD></TR>
+	<TR><TD>15001-149 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
+	</TD></TR>
+
+	<TR><TH COLSPAN=4><HR/></TH></TR>
+	<TR><TH ALIGN=LEFT COLSPAN=4>Capacitors</TH></TR>
+	<TR><TD>83 A</TD><TD><DIV ID="cap_83A"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('cap_83','switchA','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('cap_83','switchA','CLOSED');" />
+	</TD><TD><A HREF="http://<<<hostname>>>/graphtool.php?title=Capacitor 83 phase A&rev=1&ymin=2300&ymax=2500&query=SELECT t as x, cast(voltage_A as decimal(8,2)) as y FROM ieee123_scada.capacitor WHERE name='cap_83' ORDER BY id DESC LIMIT 60" TARGET="_blank"><DIV ID="cap_83_voltageA"></DIV></A></TD></TR>
+	<TR><TD>83 B</TD><TD><DIV ID="cap_83B"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('cap_83','switchB','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('cap_83','switchB','CLOSED');" />
+	</TD><TD><A HREF="http://<<<hostname>>>/graphtool.php?title=Capacitor 83 phase B&rev=1&ymin=2300&ymax=2500&query=SELECT t as x, cast(voltage_B as decimal(8,2)) as y FROM ieee123_scada.capacitor WHERE name='cap_83' ORDER BY id DESC LIMIT 60" TARGET="_blank"><DIV ID="cap_83_voltageB"></DIV></A></TD></TR>
+	<TR><TD>83 C</TD><TD><DIV ID="cap_83C"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('cap_83','switchC','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('cap_83','switchC','CLOSED');" />
+	</TD><TD><A HREF="http://<<<hostname>>>/graphtool.php?title=Capacitor 83 phase C&rev=1&ymin=2300&ymax=2500&query=SELECT t as x, cast(voltage_C as decimal(8,2)) as y FROM ieee123_scada.capacitor WHERE name='cap_83' ORDER BY id DESC LIMIT 60" TARGET="_blank"><DIV ID="cap_83_voltageC"></DIV></A></TD></TR>
+	<TR><TD>88 A</TD><TD><DIV ID="cap_88A"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('cap_88','switchA','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('cap_88','switchA','CLOSED');" />
+	</TD><TD><A HREF="http://<<<hostname>>>/graphtool.php?title=Capacitor 88 phase A&rev=1&ymin=2300&ymax=2500&query=SELECT t as x, cast(voltage_A as decimal(8,2)) as y FROM ieee123_scada.capacitor WHERE name='cap_88' ORDER BY id DESC LIMIT 60" TARGET="_blank"><DIV ID="cap_88_voltageA"></DIV></A></TD></TR>
+	<TR><TD>90 B</TD><TD><DIV ID="cap_90B"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('cap_90','switchB','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('cap_90','switchB','CLOSED');" />
+	</TD><TD><A HREF="http://<<<hostname>>>/graphtool.php?title=Capacitor 90 phase B&rev=1&ymin=2300&ymax=2500&query=SELECT t as x, cast(voltage_B as decimal(8,2)) as y FROM ieee123_scada.capacitor WHERE name='cap_90' ORDER BY id DESC LIMIT 60" TARGET="_blank"><DIV ID="cap_90_voltageB"></DIV></A></TD></TR>
+	<TR><TD>92 C</TD><TD><DIV ID="cap_92C"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('cap_92','switchC','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('cap_92','switchC','CLOSED');" />
+	</TD><TD><A HREF="http://<<<hostname>>>/graphtool.php?title=Capacitor 92 phase C&rev=1&ymin=2300&ymax=2500&query=SELECT t as x, cast(voltage_C as decimal(8,2)) as y FROM ieee123_scada.capacitor WHERE name='cap_92' ORDER BY id DESC LIMIT 60" TARGET="_blank"><DIV ID="cap_92_voltageC"></DIV></A></TD></TR>
+</TABLE>
+<HR/>
+<TABLE WIDTH="100%">
+	<TR><TD WIDTH=500></TD><TD WIDTH=50>Status</TD><TD WIDTH=50><DIV ID="status">Initializing</DIV></TD></TR>
+</TABLE>
+
+</BODY>
+
+<SCRIPT type="text/javascript">
+	var count = 0;
+	function refresh()
+	{
+		count = count + 1;
+	    setTimeout("refresh()",4000);
+	    if ( count == 1 )
+		    document.getElementById("status").innerHTML = "Updating";
+		else
+		    document.getElementById("status").innerHTML = "No response";			    
+	    document.getElementById("clock").innerHTML = GLDGetGlobal("clock");
+	    document.getElementById("sw13to152").innerHTML = GLDGetProperty("sw13to152","status");
+	    document.getElementById("sw18to135").innerHTML = GLDGetProperty("sw18to135","status");
+	    document.getElementById("sw60to160").innerHTML = GLDGetProperty("sw60to160","status");
+	    document.getElementById("sw61to6101").innerHTML = GLDGetProperty("sw61to6101","status");
+	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw97to197","status");
+	    document.getElementById("sw15001to149").innerHTML = GLDGetProperty("sw15001to149","status");
+	    document.getElementById("cap_83A").innerHTML = GLDGetProperty("cap_83","switchA");
+	    document.getElementById("cap_83_voltageA").innerHTML = GLDGetProperty("cap_83","voltage_A[kV,2fM]");
+	    document.getElementById("cap_83B").innerHTML = GLDGetProperty("cap_83","switchB");
+	    document.getElementById("cap_83_voltageB").innerHTML = GLDGetProperty("cap_83","voltage_B[kV,2fM]");
+	    document.getElementById("cap_83C").innerHTML = GLDGetProperty("cap_83","switchC");
+	    document.getElementById("cap_83_voltageC").innerHTML = GLDGetProperty("cap_83","voltage_C[kV,2fM]");
+	    document.getElementById("cap_88A").innerHTML = GLDGetProperty("cap_88","switchA");
+	    document.getElementById("cap_88_voltageA").innerHTML = GLDGetProperty("cap_88","voltage_A[kV,2fM]");
+	    document.getElementById("cap_90B").innerHTML = GLDGetProperty("cap_90","switchB");
+	    document.getElementById("cap_90_voltageB").innerHTML = GLDGetProperty("cap_90","voltage_B[kV,2fM]");
+	    document.getElementById("cap_92C").innerHTML = GLDGetProperty("cap_92","switchC");
+	    document.getElementById("cap_92_voltageC").innerHTML = GLDGetProperty("cap_92","voltage_C[kV,2fM]");
+	    document.getElementById("status").innerHTML = "Ok";
+	    count = 0;
+	}
+</SCRIPT>
+
+</HTML>
