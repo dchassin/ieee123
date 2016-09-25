@@ -49,7 +49,7 @@ if ( $rev != 0 )
 	$data = array_reverse($data,true);
 }
   
-$graph=new PHPGraphLib(900,600); 
+$graph=new PHPGraphLib(1800,1200); 
 $graph->setLine($bar==0);
 $graph->setBars($bar==1);
 $graph->addData($data);
