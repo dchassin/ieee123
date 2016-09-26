@@ -1,15 +1,39 @@
 // IEEE 123 realtime demo
 // by dchassin@slac.stanford.edu
+//
+// Run command:
+//   host% gridlabd model.glm
+//
+// Note that there are two modes of operation
+//
+// 1) Define HISTORY to run a single month. In this case all data is recorded in 
+//    the table 'ieee123_data'
+// 2) Do not define HISTORY_YEAR to run in realtime mode.  In this case 4s SCADA
+//    data is recorded in the table 'ieee123_scada' and 15m AMI data is recorded
+//    in the table 'ieee123_ami'
+//
 
-// option to enable historical run
-//#define HISTORY_YEAR=2016
+// required settings
 #define STATE=CA
 #define CITY=Bakersfield
+#define TIMEZONE=US/CA/Los Angeles
+//#define SOCKETNAME=/var/lib/mysql/mysql.sock
+
+// option to enable historical run
+#ifdef HISTORY
+#define HISTORY_YEAR=2016
+#define HISTORY_MONTH=9
+#endif
 
 // options for data collection
+#ifndef HISTORY_YEAR // only output this data when running in realtime
+#define MYSQL_SCADA=ieee123_scada // output of SCADA recordings
+#define MYSQL_AMI=ieee123_ami // output of AMI recordings
+#else // output history data to a single database schema
+#define MYSQL_SCADA=ieee123_data // record SCADA data
+#define MYSQL_AMI=ieee123_data // record AMI data
+#endif
 #define MYSQL_MODEL=ieee123_model // enable output of power system model
-#define MYSQL_SCADA=ieee123_scada // enable output of SCADA recordings
-#define MYSQL_AMI=ieee123_ami // enable output of AMI recordings
 //#define VOLTDUMP=voltage.csv // enable dump of voltage logfile
 //#define CURRDUMP=current.csv // enable dump of current logfile
 
@@ -18,16 +42,16 @@
 ///////////////////////////////////////////////////////
 
 #ifndef HISTORY_YEAR
-#option server
-#set hostname=gridlabd.slac.stanford.edu
-#set run_realtime=1
-#set server_portnum=6267
-#set suppress_repeat_messages=FALSE
+#option server // enables the server
+#set hostname=gridlabd.slac.stanford.edu  // tells clients where to get the data
+#set run_realtime=1 // tells the server to run in realtime mode
+#set server_portnum=6267 // is the port that clients will connect to
+#set suppress_repeat_messages=FALSE // allow all similar messages to be logged
 #else
 clock {
-	timezone US/CA/Los Angeles;
-	starttime '${HISTORY_YEAR}-01-01 00:00:00 PST';
-	stoptime '${HISTORY_YEAR}-12-31 23:59:59 PST';
+	timezone ${TIMEZONE};
+	starttime '${HISTORY_YEAR}-${HISTORY_MONTH}-01 00:00:00 PST';
+	stoptime '${HISTORY_YEAR}-${HISTORY_MONTH}-28 23:59:59 PST';
 }
 #endif
 
@@ -108,24 +132,26 @@ module mysql {
 	hostname "localhost";
 	username "gridlabd";
 	password "gridlabd";
-	socketname "/var/lib/mysql/mysql.sock";
+#ifdef SOCKETNAME
+	socketname "${SOCKETNAME}";
+#endif
 }
 #ifdef MYSQL_SCADA
 object database {
 	name scada;
-	hostname "localhost";
-	username "gridlabd";
-	schema "ieee123_scada";
-	password "gridlabd";
+	schema "${MYSQL_SCADA}";
+#ifdef HISTORY_YEAR
+	options NEWDB; // only rebuild database for history runs
+#endif
 }
 #endif
 #ifdef MYSQL_AMI
 object database {
 	name ami;
-	hostname "localhost";
-	username "gridlabd";
-	schema "ieee123_ami";
-	password "gridlabd";
+	schema "${MYSQL_AMI}";
+#ifdef HISTORY_YEAR
+	options NEWDB; // only rebuild database for history runs
+#endif
 }
 #endif
 	
