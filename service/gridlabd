@@ -42,7 +42,7 @@ do_start()
 {
 	if [ ! -f $HOME/gridlabd.pid ]; then
 		echo -n "starting gridlabd..."
-		su gridlabd -c "gridlabd -V --pidfile=gridlabd.pid gridlabd.glm" 1>$LOGDIR/$STDLOG 2>$LOGDIR/$ERRLOG &
+		su gridlabd -c "gridlabd -V --pidfile=gridlabd.pid $OPTIONS gridlabd.glm" 1>$LOGDIR/$STDLOG 2>$LOGDIR/$ERRLOG &
 		while [ ! -f $HOME/gridlabd.pid ]; do
 			sleep 1
 			echo -n "."
