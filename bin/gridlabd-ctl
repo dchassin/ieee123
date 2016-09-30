@@ -1,0 +1,199 @@
+#!/bin/bash
+
+. /etc/gridlabd.conf
+cd $HOME
+
+if [ $# -gt 0 -a $1 == "-q" ]; then
+	QUIET=1
+	shift
+else
+	QUIET=0
+fi
+
+function help_syntax()
+{
+	echo "Syntax: $(basename $0) <command> [<argument>]"
+}
+
+function status ()
+{
+	N=1
+	for M in $MODELS; do
+		if [ $# -eq 0 -o x$M == x$1 ]; then
+			[ $QUIET -eq 0 -o $# -eq 0 ] && [ $N -eq 1 ] && echo "ID MODEL           STATUS"
+			[ $QUIET -eq 0 -o $# -eq 0 ] && printf "%2d %-16.16s" $((N++)) $M
+			if [ ! -f $M.glm ]; then
+				echo "missing glm"
+			elif [ -f $M.pid ]; then
+				PID=$(cat $M.pid)
+				if [ x$PID == x ]; then
+					echo "empty pidfile"
+				elif [ $(ps --no-headers -q $PID | cut -c25-)x != gridlabd.binx ]; then
+					echo "bad pidfile"
+				else
+					echo "ok"
+				fi
+			else
+				echo "no pidfile"
+			fi
+		fi
+	done
+}
+
+function start ()
+{
+	for M in $MODELS; do
+		if [ $# -eq 0 -o x$M == x$1 ]; then
+			echo -n "$M: "
+			if [ ! -f $M.glm ]; then
+				echo "missing glm"
+			elif [ ! -f $M.pid ]; then
+				echo -n "starting..."
+				su gridlabd -c "gridlabd -V --pidfile=$M.pid $OPTIONS $M.glm" 1>>$STDLOG 2>>$ERRLOG &
+				N=10
+				while [ ! -f $M.pid -a $((N--)) -gt 0 ]; do
+					sleep 1
+				done
+				if [ $N -gt 0 ]; then
+					echo "ok"
+					echo "$(date): service gridlabd start model '$M' ok" | tee -a $STDLOG >>$ERRLOG
+				else
+					echo "timeout"
+					echo "$(date): service gridlabd start model '$M' timeout" | tee -a $STDLOG >>$ERRLOG
+					fi
+			else
+				status
+			fi
+		fi
+	done
+}
+
+function stop ()
+{
+	for M in $MODELS ; do
+		if [ $# -eq 0 -o x$M == x$1 ]; then
+			echo -n "$M: "
+			if [ ! -f $M.glm ]; then
+				echo "missing glm"
+			elif [ -f $M.pid ]; then
+				PID=$(cat $M.pid)
+				if [ x$PID == x ]; then
+					echo "empty pidfile"
+				elif [ $(ps --no-headers -q $PID | cut -c25-)x != gridlabd.binx ]; then
+					echo "bad pidfile"
+				else
+					echo -n "stopping..."
+					kill $PID
+					N=10
+					while [ $(ps --no-headers -q $PID | cut -c25-)x == gridlabd.binx -a $((N--)) -gt 0 ]; do
+						sleep 1
+					done
+					if [ $N -gt 0 ]; then
+						echo "ok"
+						echo "$(date): service gridlabd model '$M' stop ok" | tee -a $STDLOG >>$ERRLOG
+					else
+						echo "timeout"
+						echo "$(date): service gridlabd model '$M' stop timeout" | tee -a $STDLOG >>$ERRLOG
+					fi
+				fi
+			else
+				status
+			fi
+		fi
+	done
+}
+
+function restart ()
+{
+	stop
+	start
+}
+
+function enable ()
+{
+	case $1 in
+	(watchdog)
+		echo "enable watchdog is todo"
+		;;
+	(service)
+		chkconfig --level 345 gridlabd on
+		service gridlabd start
+		;;
+	(*)
+		echo "enable: '$1' is an invalid feature"
+		;;
+	esac
+}
+
+function disable ()
+{
+	case $1 in
+	(watchdog)
+		echo "disable watchdog is todo"
+		;;
+	(service)
+		service gridlabd stop
+		chkconfig --level 345 gridlabd off
+		;;
+	(*)
+		echo "disable: '$1' is an invalid feature"
+		;;
+	esac
+}
+
+function install ()
+{
+	mkdir -p $LOGDIR
+	enable service
+}
+
+function uninstall ()
+{
+	echo "Note: uninstall leaves files on system but disables the service"
+	disable service
+}
+
+function config ()
+{
+	echo 'config is todo'
+}
+
+function help ()
+{
+	if [ $# -eq 1 ]; then
+		help_syntax
+		echo '  config <command>   configure the service'
+		echo '  status	     get status of service'
+		echo '  start	      start the service'
+		echo '  stop	       stop the service'
+		echo '  restart	    restart the service'
+		echo '  enable <feature>   enable a feature'
+		echo '  disable <feature>  disable a feature'
+		echo '  install	    install the service'
+		echo '  uninstall	  uninstall the service'
+	else
+		case $1 in
+			(config)
+			echo "help config is todo"
+			;;
+		(enable)
+			echo "help enable is todo"
+			;;
+		(disable)
+			echo "help disable is todo"
+			;;
+		(*)
+			echo "no help for '%s'"
+			;;
+		esac
+	fi
+}
+
+case $1 in 
+(help|enable|disable|config|status|start|stop|restart|install|uninstall) 
+	$*
+	;;
+(*)
+	help_syntax
+	;;
+esac

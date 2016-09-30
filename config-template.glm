@@ -1,0 +1,139 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// GridLAB-D service model configuration control file
+// Copyright (C) 2016, SLAC National Accelerator Laboratory
+// Author: David P. Chassin
+//
+//
+// You must specify which model you are running at the command line, e.g.,
+//
+//   host% gridlabd -D MODEL=<n> -D HISTORY=1 model.glm
+//
+// where the following models are defined
+//
+//   MODEL   PORT    NAME        Description
+//   -----   -----   ---------   ----------------------------------------
+//     0      6266   ieee123z    Static loads, no solar panels
+//     1      6267   ieee123     Dynamics loads, no solar panels
+//     2      6268   ieee123s    Dynamic loads, solar panels
+//     3      6269   ieee123sz   Static loads, solar panels
+//
+// The model may be run as either a historical or realtime time.  To specify
+// a historical run use the command
+//
+//   host% gridlabd -D MODEL=<n> -D HISTORY=1 model.glm
+//
+// If HISTORY is not define then a realtime simulation is started.
+//
+/////////////////////////////////////////////////////////////////////////////
+
+//
+// Location specification (required for all runs)
+//
+// The STATE, CITY, and TIMEZONE are required to establish the weather and
+// clock configurations.  The TMY2 file <STATE>-<CITY>.tmy2 must be loaded
+// in the $HOME folder.
+//
+#define STATE=CA
+#define CITY=Bakersfield
+#define TIMEZONE=US/CA/Los Angeles
+
+//
+// Baseline period (required only for history runs)
+//
+#define HISTORY_YEAR=2016
+#define HISTORY_START_MONTH=7
+#define HISTORY_END_MONTH=10
+
+//
+// Server hostname (required for realtime runs)
+//
+#define HOSTNAME=gridlabd.slac.stanford.edu
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Check basic model specifications
+//
+/////////////////////////////////////////////////////////////////////////////
+
+#if ${MODEL}==0
+#define PORT=6266
+#define NAME=ieee123z
+#define LOADS=no
+#define SOLAR=no
+#else
+#if ${MODEL}==1
+#define PORT=6267
+#define NAME=ieee123
+#define LOADS=yes
+#define SOLAR=no
+#else
+#if ${MODEL}==2
+#define PORT=6268
+#define NAME=ieee123s
+#define LOADS=yes
+#define SOLAR=yes
+#else
+#if ${MODEL}==3
+#define PORT=6269
+#define NAME=ieee123zs
+#define LOADS=no
+#define SOLAR=yes
+#else
+#error MODEL=${MODEL} is not valid (see config.glm for details)
+#endif
+#endif
+#endif
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Options the control data collection
+//
+/////////////////////////////////////////////////////////////////////////////
+
+//
+// Output realtime data 
+//
+// SCADA and AMI data are stored in separate databases for realtime runs.
+// Comment these out if the data is not desired. Note that some graphing
+// feature may not function if realtime SCADA and AMI data are not stored.
+//
+#ifndef HISTORY_YEAR 
+
+#define MYSQL_SCADA=${NAME}_scada // output of SCADA recordings
+#define MYSQL_AMI=${NAME}_ami // output of AMI recordings
+
+//
+// Output history data 
+//
+// SCADA and AMI data are stored in the same database for history runs.
+// Comment these out if the data is not desired.
+//
+#else 
+
+#define MYSQL_SCADA=${NAME}_data // record SCADA data
+#define MYSQL_AMI=${NAME}_data // record AMI data
+
+#endif
+
+//
+// Export system model to database
+//
+// Define MYSQL_MODEL to specify the database to which the system model
+// is export when loading is complete.  This model will provide the initial
+// conditions for the simulation as well. Comment this out if the model is
+// not desired.
+//
+#define MYSQL_MODEL=${NAME}_model 
+
+//
+// Voltage and current dumps
+//
+// Define VOLTDUMP and CURRDUMP to specify the name of the files to which
+// the powerflow solver's voltage and current solutions are dumped. Comment
+// these out if the dumps are not desired.
+//
+//#define VOLTDUMP=${NAME}_voltage.csv
+//#define CURRDUMP=${NAME}_current.csv
+

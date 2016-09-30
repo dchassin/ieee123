@@ -1,68 +1,65 @@
+///////////////////////////////////////////////////////
+//
 // IEEE 123 realtime demo
-// by dchassin@slac.stanford.edu
+// Copyright (C) 2016, SLAC National Accelerator Laboratory
+// Author: dchassin@slac.stanford.edu
 //
-// Run command:
-//   host% gridlabd model.glm
-//
-// Note that there are two modes of operation
-//
-// 1) Define HISTORY to run a single month. In this case all data is recorded in 
-//    the table 'ieee123_data'
-// 2) Do not define HISTORY_YEAR to run in realtime mode.  In this case 4s SCADA
-//    data is recorded in the table 'ieee123_scada' and 15m AMI data is recorded
-//    in the table 'ieee123_ami'
-//
-
-// required settings
-#define STATE=CA
-#define CITY=Bakersfield
-#define TIMEZONE=US/CA/Los Angeles
-//#define SOCKETNAME=/var/lib/mysql/mysql.sock
-
-// option to enable historical run
-#ifdef HISTORY
-#define HISTORY_YEAR=2016
-#define HISTORY_MONTH=9
-#endif
-
-// options for data collection
-#ifndef HISTORY_YEAR // only output this data when running in realtime
-#define MYSQL_SCADA=ieee123_scada // output of SCADA recordings
-#define MYSQL_AMI=ieee123_ami // output of AMI recordings
-#else // output history data to a single database schema
-#define MYSQL_SCADA=ieee123_data // record SCADA data
-#define MYSQL_AMI=ieee123_data // record AMI data
-#endif
-#define MYSQL_MODEL=ieee123_model // enable output of power system model
-//#define VOLTDUMP=voltage.csv // enable dump of voltage logfile
-//#define CURRDUMP=current.csv // enable dump of current logfile
-
-///////////////////////////////////////////////////////
-// REALTIME SERVER SETUP
 ///////////////////////////////////////////////////////
 
-#ifndef HISTORY_YEAR
+//
+// Read the configuration file for this system
+//
+
+#ifexist config.glm
+#include "config.glm"
+#else
+#error You must copy config-template.glm to config.glm and edit it before starting the service
+#endif
+
+///////////////////////////////////////////////////////
+//
+// BASIC SETTINGS
+//
+///////////////////////////////////////////////////////
+
+//
+// Realtime run
+//
+
+#ifndef HISTORY
+
 #option server // enables the server
-#set hostname=gridlabd.slac.stanford.edu  // tells clients where to get the data
+#set hostname=${HOSTNAME}  // tells clients where to get the data
 #set run_realtime=1 // tells the server to run in realtime mode
 #set server_portnum=6267 // is the port that clients will connect to
 #set suppress_repeat_messages=FALSE // allow all similar messages to be logged
+
+//
+// Historical run
+//
+
 #else
+
 clock {
 	timezone ${TIMEZONE};
-	starttime '${HISTORY_YEAR}-${HISTORY_MONTH}-01 00:00:00 PST';
-	stoptime '${HISTORY_YEAR}-${HISTORY_MONTH}-28 23:59:59 PST';
+	starttime '${HISTORY_YEAR}-${HISTORY_START_MONTH}-01 00:00:00 PST';
+	stoptime '${HISTORY_YEAR}-${HISTORY_END_MONTH}-01 00:00:00 PST';
 }
+
 #endif
 
 ///////////////////////////////////////////////////////
+//
 // WEATHER
+//
 ///////////////////////////////////////////////////////
 
 module climate;
+
 class climate {
         double elevation[m];
 }
+
 object climate {
         name weather;
         city "${CITY} ${STATE}";
@@ -72,9 +69,13 @@ object climate {
 }
 
 ///////////////////////////////////////////////////////
+//
 // POWER SYSTEM MODEL
+//
 ///////////////////////////////////////////////////////
+
 #print Loading power system model...
+
 module powerflow {
 	solver_method NR;
 	line_capacitance true;
@@ -87,6 +88,7 @@ object voltdump {
 	mode polar;
 }
 #endif
+
 #ifdef CURRDUMP
 object currdump {
 	filename ${CURRDUMP};
@@ -94,40 +96,29 @@ object currdump {
 }
 #endif
 
-// powerflow component configurations
+//
+// Powerflow component configurations
+//
 #include "library.glm";
 
-// power system topology
+//
+// Power system topology
+//
 #include "feeder.glm";
 
-// power system geoinformation
+//
+// Power system geoinformation
+//
 #include "geolocation.glm";
 
 ///////////////////////////////////////////////////////
-// LOAD MODEL
-///////////////////////////////////////////////////////
-module residential;
-object transformer_configuration {
-	name xfmr_config;
-	connect_type SINGLE_PHASE_CENTER_TAPPED;
-	install_type POLETOP;
-	powerA_rating 75;
-	powerB_rating 75;
-	powerC_rating 75;
-	primary_voltage 2401;
-	secondary_voltage 120.000;
-	impedance 0.006+0.0136j;
-}
-///////////////////////////////////////////////////////
-// FEEDER CONTROLS
-///////////////////////////////////////////////////////
-
-// TODO: add regulator and capbank controllers
-
-///////////////////////////////////////////////////////
+//
 // MYSQL DATABASE SUPPORT
+//
 ///////////////////////////////////////////////////////
+
 #print Setting up database...
+
 module mysql {
 	hostname "localhost";
 	username "gridlabd";
@@ -136,6 +127,7 @@ module mysql {
 	socketname "${SOCKETNAME}";
 #endif
 }
+
 #ifdef MYSQL_SCADA
 object database {
 	name scada;
@@ -145,6 +137,7 @@ object database {
 #endif
 }
 #endif
+
 #ifdef MYSQL_AMI
 object database {
 	name ami;
@@ -157,155 +150,42 @@ object database {
 	
 
 ///////////////////////////////////////////////////////
+//
 // LOAD MODEL
+//
 ///////////////////////////////////////////////////////
+
+#if ${LOADS}==yes
 #print Loading houses...
 global int32 SEQ_CUSTID 0;
 #set allow_reinclude=true
 #include "loads.glm"
-
-///////////////////////////////////////////////////////
-// DATA COLLECTION
-///////////////////////////////////////////////////////
-#print Setting up SCADA system
-// SCADA recorders
-#ifdef MYSQL_SCADA
-
-// switches
-object recorder {
-	connection scada;
-	table switch;
-	parent sw13to152;
-	property "phase_A_state,phase_B_state,phase_C_state";
-	interval 4;
-	header_fieldnames "name";
-}
-
-object recorder {
-	connection scada;
-	table switch;
-	parent sw18to135;
-	property "phase_A_state,phase_B_state,phase_C_state";
-	interval 4;
-	header_fieldnames "name";
-}
-
-object recorder {
-	connection scada;
-	table switch;
-	parent sw60to160;
-	property "phase_A_state,phase_B_state,phase_C_state";
-	interval 4;
-	header_fieldnames "name";
-}
-
-object recorder {
-	connection scada;
-	table switch;
-	parent sw61to6101;
-	property "phase_A_state,phase_B_state,phase_C_state";
-	interval 4;
-	header_fieldnames "name";
-}
-
-object recorder {
-	connection scada;
-	table switch;
-	parent sw97to197;
-	property "phase_A_state,phase_B_state,phase_C_state";
-	interval 4;
-	header_fieldnames "name";
-}
-
-object recorder {
-	connection scada;
-	table switch;
-	parent sw15001to149;
-	property "phase_A_state,phase_B_state,phase_C_state";
-	interval 4;
-	header_fieldnames "name";
-}
-
-// regulators
-object recorder {
-	connection scada;
-	table regulator;
-	parent reg150to15001; 
-	property "power_in,power_out,tap_A,tap_B,tap_C";
-	interval 4;
-	header_fieldnames "name";
-}
-object recorder {
-	connection scada;
-	table regulator;
-	parent reg9to901; 
-	property "power_in,power_out,tap_A,tap_B,tap_C";
-	interval 4;
-	header_fieldnames "name";
-}
-object recorder {
-	connection scada;
-	table regulator;
-	parent reg25to2501; 
-	property "power_in,power_out,tap_A,tap_B,tap_C";
-	interval 4;
-	header_fieldnames "name";
-}
-object recorder {
-	connection scada;
-	table regulator;
-	parent reg160to16001; 
-	property "power_in,power_out,tap_A,tap_B,tap_C";
-	interval 4;
-	header_fieldnames "name";
-}
-object recorder {
-	connection scada;
-	table regulator;
-	parent reg9to901; 
-	property "power_in,power_out,tap_A,tap_B,tap_C";
-	interval 4;
-	header_fieldnames "name";
-}
-
-// capacitors
-object recorder {
-	connection scada;
-	table capacitor;
-	parent cap_83;
-	property "voltage_A,voltage_B,voltage_C,switchA,switchB,switchC";
-	interval 4;
-	header_fieldnames "name";
-}
-object recorder {
-	connection scada;
-	table capacitor;
-	parent cap_88;
-	property "voltage_A,switchA";
-	interval 4;
-	header_fieldnames "name";
-}
-object recorder {
-	connection scada;
-	table capacitor;
-	parent cap_90;
-	property "voltage_B,switchB";
-	interval 4;
-	header_fieldnames "name";
-}
-object recorder {
-	connection scada;
-	table capacitor;
-	parent cap_92;
-	property "voltage_C,switchC";
-	interval 4;
-	header_fieldnames "name";
-}
 #endif
+
+///////////////////////////////////////////////////////
+//
+// DATA COLLECTION
+//
+///////////////////////////////////////////////////////
+
+//
+// SCADA recorders
+//
+
+#ifdef MYSQL_SCADA
+#print Setting up SCADA system...
+#include "scada.glm"
+#endif
+
+///////////////////////////////////////////////////////
+//
+// MODEL EXPORT
+//
+///////////////////////////////////////////////////////
 
 #ifdef MYSQL_MODEL
 #print Exporting system model...
 export mysql ieee123_model;
 #endif
 
-#print Loading complete.
+#print Load complete.

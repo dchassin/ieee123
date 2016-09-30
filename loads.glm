@@ -1,3 +1,16 @@
+module residential;
+object transformer_configuration {
+	name xfmr_config;
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	install_type POLETOP;
+	powerA_rating 75;
+	powerB_rating 75;
+	powerC_rating 75;
+	primary_voltage 2401;
+	secondary_voltage 120.000;
+	impedance 0.006+0.0136j;
+}
+
 #include using(LOADID=1,PHASE=A,COUNT=4) "house.glm"
 #include using(LOADID=2,PHASE=B,COUNT=2) "house.glm"
 #include using(LOADID=4,PHASE=C,COUNT=4) "house.glm"

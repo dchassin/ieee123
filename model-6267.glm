@@ -1,0 +1,2 @@
+#define MODEL=1
+#include "model.glm"

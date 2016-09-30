@@ -1,0 +1,36 @@
+### BEGIN INIT INFO
+# Provides:          gridlabd
+# Required-Start:    $local_fs
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     false
+# Short-Description: GridLAB-D Realtime Simulator
+# Description:       GridLAB-D realtime simulation that provides services on ports (6267)-(6267+#(MODELS))
+### END INIT INFO
+
+DESC="GridLAB-D Realtime Simulator"
+NAME=gridlabd
+#DAEMON=
+
+PATH=/home/$NAME/bin:$PATH
+[ -f /etc/$NAME.conf ] && source /etc/$NAME.conf
+
+case "$1" in
+status)
+	$NAME-ctl status
+	;;
+start)
+	logger -p syslog.info "$NAME start"
+	$NAME-ctl start || logger -p syslog.err "$NAME start failed"
+	;;
+stop)
+	logger -p syslog.info "$NAME stop"
+	$NAME-ctl stop || logger -p syslog.err "$NAME stop failed"
+	;;
+restart)
+	$NAME-ctl restart
+	;;
+esac
+
+exit 0
