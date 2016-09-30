@@ -13,14 +13,18 @@ host system.
 The recommended build sequence after the mysql server is setup is
 
   > host% sudo su gridlabd
+
   > host% svn co http://code.sf.net/p/gridlab-d/code/trunk ~gridlabd/trunk
+
   > host% cd ~gridlabd/trunk
+
   > host% autoreconf -isf
-  > host% ./configure --enable-silent-rules --prefix=~gridlabd 
-  > >  --with-mysql=/usr/lib64/mysql 'CXXFLAGS=-I/usr/include/mysql -w -O3'
-  > > 'CFLAGS=-I/usr/include/mysql -w -O3'
+
+  > host% ./configure --enable-silent-rules --prefix=~gridlabd --with-mysql=/usr/lib64/mysql 'CXXFLAGS=-I/usr/include/mysql -w -O3' 'CFLAGS=-I/usr/include/mysql -w -O3'
+
   > host% make install
-  > host% make validation
+
+  > host% make validate
 
 Installing IEEE123
 ------------------
@@ -36,5 +40,5 @@ Connecting
 The main control page is reached by directing your web browser to the system's
 home page:
 
-    > http://hostname/
+  > http://hostname/
 
