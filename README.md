@@ -32,7 +32,7 @@ The ieee123 project Makefile will install both the model files and the service
 control files.  After installation you must start the gridlabd service with the
 command
 
-  > host% sudo service gridlabd start
+  > host% sudo gridlabd-ctl start
   
 Connecting
 ----------
