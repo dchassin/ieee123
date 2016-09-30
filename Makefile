@@ -36,7 +36,12 @@ DST_BIN = $(subst bin/,$(BIN)/,$(SRC_BIN))
 install: source service html
 
 # source files
-source: $(DST_TMY) $(DST_GLM)
+source: $(DST_TMY) $(DST_GLM) $(DST)/config.glm
+
+$(DST)/config.glm: $(DST)/config-template.glm
+	#
+	# WARNING: $@ is missing or outdated ($< is newer)
+	#
 
 $(DST)/%: %
 	install -o $(USER) -g $(USER) -m 644 $< $@
@@ -56,6 +61,6 @@ $(BIN)/%: $(SRC_BIN)
 # HTML files
 html: $(DST_DOC)
 
-$(DOC)/%: %
+$(DOC)/%: html/%
 	install -o apache -g apache -m 644 $< $@
 

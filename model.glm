@@ -9,11 +9,15 @@
 //
 // Read the configuration file for this system
 //
-
 #ifexist config.glm
 #include "config.glm"
-#else
-#error You must copy config-template.glm to config.glm and edit it before starting the service
+#endif
+
+//
+// Check the configuration
+//
+#ifndef PORT // this is required and defined in config.glm
+#error config.glm load failed: if you have not already done so you must copy config-template.glm to config.glm and edit it before starting the service
 #endif
 
 ///////////////////////////////////////////////////////
@@ -25,21 +29,21 @@
 //
 // Realtime run
 //
-
 #ifndef HISTORY
 
+#print Setting up realtime server on ${HOSTNAME}:${PORT}
 #option server // enables the server
 #set hostname=${HOSTNAME}  // tells clients where to get the data
 #set run_realtime=1 // tells the server to run in realtime mode
-#set server_portnum=6267 // is the port that clients will connect to
+#set server_portnum=${PORT} // is the port that clients will connect to
 #set suppress_repeat_messages=FALSE // allow all similar messages to be logged
 
 //
 // Historical run
 //
-
 #else
 
+#print Setting up history run from ${HISTORY_START_MONTH}/1/${HISTORY_YEAR} to ${HISTORY_END_MONTH}/1/${HISTORY_YEAR}...
 clock {
 	timezone ${TIMEZONE};
 	starttime '${HISTORY_YEAR}-${HISTORY_START_MONTH}-01 00:00:00 PST';
@@ -53,9 +57,8 @@ clock {
 // WEATHER
 //
 ///////////////////////////////////////////////////////
-
+#print Loading climate data for ${CITY} ${STATE}...
 module climate;
-
 class climate {
         double elevation[m];
 }
@@ -73,7 +76,6 @@ object climate {
 // POWER SYSTEM MODEL
 //
 ///////////////////////////////////////////////////////
-
 #print Loading power system model...
 
 module powerflow {
@@ -82,6 +84,7 @@ module powerflow {
 }
 
 #ifdef VOLTDUMP
+#print Voltage dump to ${VOLTDUMP} is enabled...
 object voltdump {
 	filename ${VOLTDUMP};
 	group "nodevolts";
@@ -90,6 +93,7 @@ object voltdump {
 #endif
 
 #ifdef CURRDUMP
+#print Current dump to ${CURRDUMP} is enabled...
 object currdump {
 	filename ${CURRDUMP};
 	mode rect;
@@ -99,36 +103,36 @@ object currdump {
 //
 // Powerflow component configurations
 //
-#include "library.glm";
+#include "library.glm"
 
 //
 // Power system topology
 //
-#include "feeder.glm";
+#include "feeder.glm"
 
 //
 // Power system geoinformation
 //
-#include "geolocation.glm";
+#include "geolocation.glm"
 
 ///////////////////////////////////////////////////////
 //
 // MYSQL DATABASE SUPPORT
 //
 ///////////////////////////////////////////////////////
-
-#print Setting up database...
-
+#print Setting up database for model ${NAME}...
 module mysql {
 	hostname "localhost";
 	username "gridlabd";
 	password "gridlabd";
 #ifdef SOCKETNAME
+#print Using socket ${SOCKETNAME}...
 	socketname "${SOCKETNAME}";
 #endif
 }
 
 #ifdef MYSQL_SCADA
+#print Setting SCADA tables ${MYSQL_SCADA}...
 object database {
 	name scada;
 	schema "${MYSQL_SCADA}";
@@ -139,6 +143,7 @@ object database {
 #endif
 
 #ifdef MYSQL_AMI
+#print Setting AMI tables in ${MYSQL_AMI}...
 object database {
 	name ami;
 	schema "${MYSQL_AMI}";
@@ -147,16 +152,14 @@ object database {
 #endif
 }
 #endif
-	
 
 ///////////////////////////////////////////////////////
 //
 // LOAD MODEL
 //
 ///////////////////////////////////////////////////////
-
-#if ${LOADS}==yes
-#print Loading houses...
+#if LOADS==yes
+#print Replace static loads with dynamic loads...
 global int32 SEQ_CUSTID 0;
 #set allow_reinclude=true
 #include "loads.glm"
@@ -171,7 +174,6 @@ global int32 SEQ_CUSTID 0;
 //
 // SCADA recorders
 //
-
 #ifdef MYSQL_SCADA
 #print Setting up SCADA system...
 #include "scada.glm"
@@ -184,8 +186,8 @@ global int32 SEQ_CUSTID 0;
 ///////////////////////////////////////////////////////
 
 #ifdef MYSQL_MODEL
-#print Exporting system model...
-export mysql ieee123_model;
+#print Exporting system model to mysql schema ${NAME}_model...
+export mysql ${NAME}_model;
 #endif
 
 #print Load complete.

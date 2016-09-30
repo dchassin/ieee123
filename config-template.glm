@@ -50,31 +50,36 @@
 //
 #define HOSTNAME=gridlabd.slac.stanford.edu
 
+//
+// MySQL connection method (uncomment if using a local socket instead of port 3306)
+//
+#define SOCKETNAME=/var/lib/mysql/mysql.sock
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Check basic model specifications
 //
 /////////////////////////////////////////////////////////////////////////////
 
-#if ${MODEL}==0
+#if MODEL==0
 #define PORT=6266
 #define NAME=ieee123z
 #define LOADS=no
 #define SOLAR=no
 #else
-#if ${MODEL}==1
+#if MODEL==1
 #define PORT=6267
 #define NAME=ieee123
 #define LOADS=yes
 #define SOLAR=no
 #else
-#if ${MODEL}==2
+#if MODEL==2
 #define PORT=6268
 #define NAME=ieee123s
 #define LOADS=yes
 #define SOLAR=yes
 #else
-#if ${MODEL}==3
+#if MODEL==3
 #define PORT=6269
 #define NAME=ieee123zs
 #define LOADS=no
@@ -99,7 +104,7 @@
 // Comment these out if the data is not desired. Note that some graphing
 // feature may not function if realtime SCADA and AMI data are not stored.
 //
-#ifndef HISTORY_YEAR 
+#ifndef HISTORY
 
 #define MYSQL_SCADA=${NAME}_scada // output of SCADA recordings
 #define MYSQL_AMI=${NAME}_ami // output of AMI recordings
