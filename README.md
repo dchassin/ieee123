@@ -8,19 +8,19 @@ GridLAB should be built from and installed to the home directory of the gridlabd
 user. If you have not already done so, you must create a gridlabd user on the
 host system.
 
-  host% sudo adduser -s /bin/bash -m -U gridlabd
+  > host% sudo adduser -s /bin/bash -m -U gridlabd
 
 The recommended build sequence after the mysql server is setup is
 
-  host% sudo su gridlabd
-  host% svn co http://code.sf.net/p/gridlab-d/code/trunk ~gridlabd/trunk
-  host% cd ~gridlabd/trunk
-  host% autoreconf -isf
-  host% ./configure --enable-silent-rules --prefix=~gridlabd 
-  > --with-mysql=/usr/lib64/mysql 'CXXFLAGS=-I/usr/include/mysql -w -O3'
-  > 'CFLAGS=-I/usr/include/mysql -w -O3'
-  host% make install
-  host% make validation
+  > host% sudo su gridlabd
+  > host% svn co http://code.sf.net/p/gridlab-d/code/trunk ~gridlabd/trunk
+  > host% cd ~gridlabd/trunk
+  > host% autoreconf -isf
+  > host% ./configure --enable-silent-rules --prefix=~gridlabd 
+  > >  --with-mysql=/usr/lib64/mysql 'CXXFLAGS=-I/usr/include/mysql -w -O3'
+  > > 'CFLAGS=-I/usr/include/mysql -w -O3'
+  > host% make install
+  > host% make validation
 
 Installing IEEE123
 ------------------
@@ -28,7 +28,7 @@ The ieee123 project Makefile will install both the model files and the service
 control files.  After installation you must start the gridlabd service with the
 command
 
-  host% sudo service gridlabd start
+  > host% sudo service gridlabd start
   
 Connecting
 ----------
@@ -36,5 +36,5 @@ Connecting
 The main control page is reached by directing your web browser to the system's
 home page:
 
-    http://hostname/
+    > http://hostname/
 
