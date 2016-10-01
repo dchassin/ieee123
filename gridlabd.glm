@@ -1,5 +1,6 @@
 // IEEE 123 realtime demo
-// by dchassin@slac.stanford.edu
+// Copyright (C) 2016, Stanford University
+// Author: dchassin@slac.stanford.edu
 
 // option to enable historical run
 //#define HISTORY_YEAR=2016

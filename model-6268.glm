@@ -1,2 +1,5 @@
+// IEEE-123 solar model
+// Copyright (C) 2016, Stanford University
+// Author: dchassin@slac.stanford.edu
 #define MODEL=2
 #include "model.glm"

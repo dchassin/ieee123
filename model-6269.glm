@@ -1,2 +1,5 @@
+// IEEE-123 dynamic loads solar model
+// Copyright (C) 2016, Stanford University
+// Author: dchassin@slac.stanford.edu
 #define MODEL=3
 #include "model.glm"

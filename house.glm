@@ -1,5 +1,6 @@
-// IEEE 123 realtime demo load
-// by dchassin@slac.stanford.edu
+// IEEE 123 realtime loads
+// Copyright (C) 2016, Stanford University
+// Author: dchassin@slac.stanford.edu
 //
 // This GLM converts a static load into into an specified number of houses
 // Parameters:

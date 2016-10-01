@@ -1,5 +1,9 @@
 <!DOCTYPE HTML>
 <HTML>
+<!-- IEEE-123 realtime simulation configuration
+     Copyright (C) 2016, Stanford University
+     Author: dchassin@slac.stanford.edu
+-->
 <TITLE>GridLAB-D Realtime Server</TITLE>
 <BODY>
 <H1>Welcome</H1>

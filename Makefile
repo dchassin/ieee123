@@ -1,5 +1,6 @@
-#
 # Makefile
+# Copyright (C) 2016, Stanford University
+# Author: dchassin@slac.stanford.edu
 #
 # GridLAB-D Realtime Simulator
 #

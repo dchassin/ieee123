@@ -1,2 +1,5 @@
+// IEEE-123 dynamic load model
+// Copyright (C) 2016, Stanford University
+// Author: dchassin@slac.stanford.edu
 #define MODEL=1
 #include "model.glm"

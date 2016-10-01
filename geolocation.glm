@@ -1,3 +1,6 @@
+// IEEE-123 geocoordinates for Bakersfield CA
+// Copyright (C) 2016, Stanford University
+// Author: dchassin@slac.stanford.edu
 modify load_1.latitude 35N23.117; modify load_1.longitude 119W0.132;
 modify load_2.latitude 35N23.146; modify load_2.longitude 119W0.132;
 modify node_3.latitude 35N23.076; modify node_3.longitude 119W0.132;

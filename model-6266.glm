@@ -1,2 +1,6 @@
+// IEEE-123 baseline model
+// Copyright (C) 2016, Stanford University
+// Author: dchassin@slac.stanford.edu
+//
 #define MODEL=0
 #include "model.glm"

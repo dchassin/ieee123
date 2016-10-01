@@ -1,5 +1,6 @@
 // IEEE 123 realtime demo feeder component library
-// by dchassin@slac.stanford.edu
+// Copyright (C) 2016, Stanford University
+// Author: dchassin@slac.stanford.edu
 
 //Conductors
 object overhead_line_conductor {

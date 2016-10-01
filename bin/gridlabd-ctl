@@ -1,5 +1,7 @@
 #!/bin/bash
-
+#   IEEE-123 realtime simulation control script
+#   Copyright (C) 2016, Stanford University
+#   Author: dchassin@slac.stanford.edu
 . /etc/gridlabd.conf
 cd $HOME
 
