@@ -32,10 +32,10 @@
 			+ '<TD><DIV ID="meter_'+id+'_status"></DIV></TD>'
 			+ '<TD><INPUT TYPE="submit" VALUE="DISCONNECT" ONCLICK="GLDSetProperty(\'meter_'+id+'\',\'service_status\',\'OUT_OF_SERVICE\');" />'
 			+ '<INPUT TYPE="submit" VALUE="CONNECT" ONCLICK="GLDSetProperty(\'meter_'+id+'\',\'service_status\',\'IN_SERVICE\');" /></TD>'
-			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?xinterval=4&rev=1&title=Meter '+id+' Demand&query=SELECT t as x, measured_real_power as y FROM ieee123_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_power"></DIV></A></TD>'
-			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?diff=1&pos=1&rev=1&bar=1&xinterval=4&title=Meter '+id+'i Interval Energy&query=SELECT t as x, measured_real_energy*4 as y FROM ieee123_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_energy"></DIV></A></TD>'
-			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?xinterval=4&rev=1&title=Meter '+id+' Voltage (1)&ymin=110&ymax=130&query=SELECT t as x, cast(measured_voltage_1 as decimal(8,1)) as y FROM ieee123_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_voltage_1"></DIV></A></TD>'
-			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?xinterval=4&rev=1&title=Meter '+id+' Voltage (2)&ymin=110&ymax=130&query=SELECT t as x, cast(measured_voltage_2 as decimal(8,1)) as y FROM ieee123_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_voltage_2"></DIV></A></TD>'
+			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?xinterval=4&rev=1&title=Meter '+id+' Demand&query=SELECT t as x, measured_real_power as y FROM <<<NAME>>>_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_power"></DIV></A></TD>'
+			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?diff=1&pos=1&rev=1&bar=1&xinterval=4&title=Meter '+id+'i Interval Energy&query=SELECT t as x, measured_real_energy*4 as y FROM <<<NAME>>>_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_energy"></DIV></A></TD>'
+			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?xinterval=4&rev=1&title=Meter '+id+' Voltage (1)&ymin=110&ymax=130&query=SELECT t as x, cast(measured_voltage_1 as decimal(8,1)) as y FROM <<<NAME>>>_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_voltage_1"></DIV></A></TD>'
+			+ '<TD><A HREF="http://<<<hostname>>>/graphtool.php?xinterval=4&rev=1&title=Meter '+id+' Voltage (2)&ymin=110&ymax=130&query=SELECT t as x, cast(measured_voltage_2 as decimal(8,1)) as y FROM <<<NAME>>>_ami.meter WHERE name=%27meter_'+id+'%27 ORDER BY id DESC LIMIT 96" TARGET="_blank"><DIV ID="meter_'+id+'_voltage_2"></DIV></A></TD>'
 			+ '</TR>');
 	}
 </SCRIPT>

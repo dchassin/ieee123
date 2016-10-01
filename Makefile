@@ -36,7 +36,7 @@ DST_BIN = $(subst bin/,$(BIN)/,$(SRC_BIN))
 install: source service html
 
 # source files
-source: $(DST_TMY) $(DST_GLM) $(DST)/config.glm
+source: $(DST_TMY) $(DST_GLM) $(DST_HTM) $(DST)/config.glm
 
 $(DST)/config.glm: $(DST)/config-template.glm
 	#
