@@ -11,6 +11,9 @@ object transformer_configuration {
 	impedance 0.006+0.0136j;
 }
 
+global int32 SEQ_CUSTID 0;
+#set allow_reinclude=true
+
 #include using(LOADID=1,PHASE=A,COUNT=4) "house.glm"
 #include using(LOADID=2,PHASE=B,COUNT=2) "house.glm"
 #include using(LOADID=4,PHASE=C,COUNT=4) "house.glm"

@@ -57,6 +57,12 @@ clock {
 // WEATHER
 //
 ///////////////////////////////////////////////////////
+#ifexist ${STATE}-${CITY}.tmy2
+#define TMY=${STATE}-${CITY}.tmy2
+#endif
+#ifndef TMY
+#error TMY file ${STATE}-${CITY}.tmy2 is not found; you must install this file in $HOME
+#endif
 #print Loading climate data for ${CITY} ${STATE}...
 module climate;
 class climate {
@@ -66,7 +72,7 @@ class climate {
 object climate {
         name weather;
         city "${CITY} ${STATE}";
-        tmyfile "${STATE}-${CITY}.tmy2";
+        tmyfile "${TMY}";
         elevation 150;
         interpolate QUADRATIC;
 }
@@ -160,8 +166,6 @@ object database {
 ///////////////////////////////////////////////////////
 #if LOADS==yes
 #print Replace static loads with dynamic loads...
-global int32 SEQ_CUSTID 0;
-#set allow_reinclude=true
 #include "loads.glm"
 #endif
 
