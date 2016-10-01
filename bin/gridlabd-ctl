@@ -105,8 +105,8 @@ function stop ()
 
 function restart ()
 {
-	stop
-	start
+	stop $*
+	start $*
 }
 
 function enable ()
@@ -160,37 +160,117 @@ function config ()
 
 function help ()
 {
-	if [ $# -eq 1 ]; then
+	if [ $# -eq 0 ]; then
 		help_syntax
-		echo '  config <command>   configure the service'
-		echo '  status	     get status of service'
-		echo '  start	      start the service'
-		echo '  stop	       stop the service'
-		echo '  restart	    restart the service'
-		echo '  enable <feature>   enable a feature'
-		echo '  disable <feature>  disable a feature'
-		echo '  install	    install the service'
-		echo '  uninstall	  uninstall the service'
+		echo '  status    get status of service'
+		echo '  start     start the service'
+		echo '  stop      stop the service'
+		echo '  restart   restart the service'
 	else
 		case $1 in
-			(config)
-			echo "help config is todo"
-			;;
-		(enable)
-			echo "help enable is todo"
-			;;
-		(disable)
-			echo "help disable is todo"
+		(status|start|stop|restart)
+			help_$1
 			;;
 		(*)
-			echo "no help for '%s'"
+			echo "no help for '$1'"
 			;;
 		esac
 	fi
 }
 
+function help_status ()
+{
+	echo '
+gridlabd-ctl status - display the status of the realtime simulations
+
+Synopsis
+--------
+
+  gridlabd-ctl status [-q] [<model>]
+
+The status command by default displays the state of the all the realtime
+simulations in tabular form.  If the -q option is used, only the state
+itself is displayed.  If the <model> is specified, only the state of that
+model is displayed.
+
+See also
+--------
+* start
+* stop
+* restart
+'
+}
+
+function help_start ()
+{
+	echo '
+gridlabd-ctl start - start a realtime simulation
+
+Synopsis
+--------
+
+  gridlabd-ctl start [<model>]
+
+The start command by default starts all the models installed in the service.
+If the <model> is specified, only that model will be started.  If the model
+starts correctly, the result 'ok' is displayed.  If the model fails to start
+correctly within 10 seconds, the result 'timeout' is displayed.  Diagnostic
+output is provided in the log files /var/log/gridlabd/{output,error}.
+
+See also
+--------
+* status
+* stop
+* restart
+'
+}
+
+function help_stop ()
+{
+	echo '
+gridlabd-ctl stop - stop a realtime simulation
+
+Synopsis
+--------
+
+  gridlabd-ctl stop [<model>]
+
+The stop command by default stops all the models installed in the service.
+If the <model> is specified, only that model is stopped.  If the model is
+stopped correctly, the result 'ok' is displayed.  If the model fails to stop
+correctly within 10 seconds, the result 'timeout' is displayed.  Diagnostic
+output is provided in the log files /var/log/gridlabd/{output,error}.
+
+See also
+--------
+* status
+* start
+* restart
+'
+}
+
+function help_restart ()
+{
+	echo '
+gridlabd-ctl restart - restart a realtime simulation
+
+Synopsis
+--------
+
+  gridlabd-ctl restart [<model>]
+
+The restart command executes the stop command, followed by the start command.
+
+See also
+--------
+* status
+* start
+* stop
+'
+}
+
 case $1 in 
-(help|enable|disable|config|status|start|stop|restart|install|uninstall) 
+(help|status|start|stop|restart) 
 	$*
 	;;
 (*)
