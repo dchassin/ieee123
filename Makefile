@@ -35,6 +35,7 @@ DST_INI = $(subst ini/,$(INI)/,$(SRC_INI))
 DST_BIN = $(subst bin/,$(BIN)/,$(SRC_BIN))
 
 install: source service html
+	git log -n 1 --date=iso | grep '^Date: ' | sed 's/Date:   //' >$(DST)/.update-info
 
 # service files
 service: $(DST_ETC) $(DST_INI) $(DST_BIN)
