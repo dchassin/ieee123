@@ -17,11 +17,13 @@
 #debug Converting static load ${LOADID} phase ${PHASE} to ${COUNT} houses
 
 // remove static load
+#if LOADS==yes
 modify load_${LOADID}.constant_power_${PHASE} 0+0j;	
 modify load_${LOADID}.constant_current_${PHASE} 0+0j;	
 modify load_${LOADID}.constant_impedance_${PHASE} 0+0j;	
+#endif
 
-// add dynamic load
+// load/solar connection
 object transformer {
 	name xfrm_${LOADID}${PHASE};
 	phases ${PHASE}S;
@@ -41,10 +43,12 @@ object triplex_meter:..${COUNT} {
 	nominal_voltage 120;
 	latitude (load_${LOADID}.latitude);
 	longitude (load_${LOADID}.longitude);
+#if LOADS==yes
 	object house { 
 		floor_area random.triangle(1000,2000);
 		name `house_{SEQ_CUSTID}`;
 	}; 
+#endif
 #ifdef MYSQL_AMI
 	object recorder {
 		connection ami;
@@ -52,6 +56,23 @@ object triplex_meter:..${COUNT} {
 		property "measured_voltage_1,measured_voltage_2,measured_demand,measured_real_power,measured_reactive_power,measured_real_energy,measured_reactive_energy,measured_current_1,measured_current_2,measured_current_N";
 		interval 900;
 		header_fieldnames "name";
+	};
+#endif
+#if SOLAR==yes
+	object inverter {
+		phases AS;
+		rated_power 25000;	
+		generator_mode CONSTANT_PF;
+		generator_status ONLINE;
+		inverter_efficiency 0.9;
+		inverter_type PWM;
+		object solar {
+			phases AS;
+			area 350 sf;
+			generator_status ONLINE;
+			generator_mode SUPPLY_DRIVEN;
+			panel_type SINGLE_CRYSTAL_SILICON;
+		 };
 	};
 #endif
 }

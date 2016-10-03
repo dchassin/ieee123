@@ -18,6 +18,13 @@ object transformer_configuration {
 global int32 SEQ_CUSTID 0;
 #set allow_reinclude=true
 
+#if LOADS==yes
+#print Adding dynamic loads...
+#endif
+#if SOLAR==yes
+#print Adding solar panels...
+#endif
+
 #include using(LOADID=1,PHASE=A,COUNT=4) "house.glm"
 #include using(LOADID=2,PHASE=B,COUNT=2) "house.glm"
 #include using(LOADID=4,PHASE=C,COUNT=4) "house.glm"
