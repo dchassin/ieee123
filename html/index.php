@@ -8,7 +8,7 @@
 <BODY>
 <H1>Welcome</H1>
 The following simulations are currently running on this server:
-<TABLE CELLSPACING=10>
+<TABLE CELLSPACING=10 WIDTH="100%">
 <TR><TH>Model<HR/></TH><TH>Loads<HR/></TH><TH>Solar panels<HR/></TH><TH>Webpage<HR/></TH><TH>Database<HR/></TH><TH>Status<HR/></TH><TH>Metric<HR/></TH></TR>
 <TR><TD>IEEE 123</TD><TD>Static</TD><TD>No</TD><TD><A TARGET="_blank" HREF="http://gridlabd.slac.stanford.edu:6266/rt/control.htm">http://gridlabd.slac.stanford.edu:6266/rt/control.htm</A></TD><TD><A TARGET="_blank" HREF=data>gridlabd_ro@gridlabd.slac.stanford.edu:3306/ieee123z_{model,ami,scada}</A></TD><TD><?php passthru('/home/gridlabd/bin/gridlabd-ctl -q status model-6266');?></TD><TD><?php passthru("curl 'http://gridlabd.slac.stanford.edu:6266/raw/realtime_metric'");?></TD></TR>
 <TR><TD>IEEE 123</TD><TD>Dynamic</TD><TD>No</TD><TD><A TARGET="_blank" HREF="http://gridlabd.slac.stanford.edu:6267/rt/control.htm">http://gridlabd.slac.stanford.edu:6267/rt/control.htm</A></TD><TD><A TARGET="_blank" HREF=data>gridlabd_ro@gridlabd.slac.stanford.edu:3306/ieee123_{model,ami,scada}</A></TD><TD><?php passthru('/home/gridlabd/bin/gridlabd-ctl -q status model-6267');?></TD><TD><?php passthru("curl 'http://gridlabd.slac.stanford.edu:6267/raw/realtime_metric'");?></TD></TR>
@@ -18,9 +18,9 @@ The following simulations are currently running on this server:
 
 <HR/>
 <TABLE WIDTH="100%"><TR>
-<TD>Source: <A HREF="https://code.stanford.edu/gridlabd/ieee123">https://code.stanford.edu/gridlabd/ieee123</A></TD>
-<TD>Last change: <?php passthru("cat ~gridlabd/.update-info");?></TD>
-<TD>Last update: <?php passthru("stat -c '%y' ~gridlabd/.update-info | cut -c1-19,30-");?></TD>
+<TD ALIGN=LEFT>Source: <A HREF="https://code.stanford.edu/gridlabd/ieee123">https://code.stanford.edu/gridlabd/ieee123</A></TD>
+<TD ALIGN=CENTER>Last fetch: <?php passthru("cat ~gridlabd/.update-info");?></TD>
+<TD ALIGN=RIGHT>Last build: <?php passthru("stat -c '%y' ~gridlabd/.update-info | cut -c1-19,30-");?></TD>
 </TD>
 </TR>
 </TABLE>
