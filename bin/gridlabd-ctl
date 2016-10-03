@@ -32,14 +32,42 @@ function status ()
 					echo "empty pidfile"
 				elif [ $(ps --no-headers -q $PID | cut -c25-)x != gridlabd.binx ]; then
 					echo "bad pidfile"
-				else
+				elif [ $QUIET -eq 0 ]; then
 					P=$(curl -s http://localhost:${M/model-/}/raw/realtime_metric)
 					printf "ok            %.1f%%\n" $(dc -e "1 ${P/+/} - 100 * p")
+				else
+					echo "ok"
 				fi
 			else
 				echo "no pidfile"
 			fi
 		fi
+	done
+}
+
+function fix ()
+{
+	for M in $MODELS; do
+                if [ $# -eq 0 -o x$M == x$1 ]; then
+                        echo -n "$M: "
+                        if [ ! -f $M.glm ]; then
+                                echo "can't fix missing glm"
+                        elif [ -f $M.pid ]; then
+                                PID=$(cat $M.pid)
+                                if [ x$PID == x ]; then
+					rm $M.pid
+                                        echo "removed empty pidfile"
+                                elif [ $(ps --no-headers -q $PID | cut -c25-)x != gridlabd.binx ]; then
+					rm $M.pid
+                                        echo "removed bad pidfile"
+                                else
+                                        echo "nothing to fix"
+                                fi
+                        else
+                                echo "no pidfile"
+                        fi
+                fi
+
 	done
 }
 
@@ -65,7 +93,7 @@ function start ()
 					echo "$(date): service gridlabd start model '$M' timeout" | tee -a $STDLOG >>$ERRLOG
 					fi
 			else
-				status
+				status $M
 			fi
 		fi
 	done
@@ -169,9 +197,10 @@ function help ()
 		echo '  start     start the service'
 		echo '  stop      stop the service'
 		echo '  restart   restart the service'
+		echo '  fix       fix a problem'
 	else
 		case $1 in
-		(status|start|stop|restart)
+		(status|start|stop|restart|fix)
 			help_$1
 			;;
 		(*)
@@ -198,6 +227,7 @@ model is displayed.
 
 See also
 --------
+* fix
 * start
 * stop
 * restart
@@ -272,8 +302,26 @@ See also
 '
 }
 
+function help_fix ()
+{
+	echo '
+gridlabd-ctl fix - fix a problem with a model
+
+Synopsis
+--------
+
+  gridlabd-ctl fix <model>
+
+The fix command resolves problems with the model pidfiles.
+
+See also
+--------
+* status
+'
+}
+
 case $1 in 
-(help|status|start|stop|restart) 
+(help|status|start|stop|restart|fix) 
 	$*
 	;;
 (*)
