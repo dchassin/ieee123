@@ -22,7 +22,7 @@ function status ()
 	N=1
 	for M in $MODELS; do
 		if [ $# -eq 0 -o x$M == x$1 ]; then
-			[ $QUIET -eq 0 -o $# -eq 0 ] && [ $N -eq 1 ] && echo "ID MODEL           STATUS"
+			[ $QUIET -eq 0 -o $# -eq 0 ] && [ $N -eq 1 ] && echo "ID MODEL           STATUS        LOAD"
 			[ $QUIET -eq 0 -o $# -eq 0 ] && printf "%2d %-16.16s" $((N++)) $M
 			if [ ! -f $M.glm ]; then
 				echo "missing glm"
@@ -33,7 +33,8 @@ function status ()
 				elif [ $(ps --no-headers -q $PID | cut -c25-)x != gridlabd.binx ]; then
 					echo "bad pidfile"
 				else
-					echo "ok"
+					P=$(curl -s http://localhost:${M/model-/}/raw/realtime_metric)
+					printf "ok            %.1f%%\n" $(dc -e "1 ${P/+/} - 100 * p")
 				fi
 			else
 				echo "no pidfile"
