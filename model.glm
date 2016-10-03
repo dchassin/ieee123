@@ -37,7 +37,9 @@
 #set run_realtime=1 // tells the server to run in realtime mode
 #set server_portnum=${PORT} // is the port that clients will connect to
 #set suppress_repeat_messages=FALSE // allow all similar messages to be logged
-
+clock {
+	timezone ${TIMEZONE};
+}
 //
 // Historical run
 //
@@ -145,7 +147,7 @@ module mysql {
 object database {
 	name scada;
 	schema "${MYSQL_SCADA}";
-#ifdef HISTORY_YEAR
+#ifdef HISTORY
 	options NEWDB; // only rebuild database for history runs
 #endif
 }
@@ -156,7 +158,7 @@ object database {
 object database {
 	name ami;
 	schema "${MYSQL_AMI}";
-#ifdef HISTORY_YEAR
+#ifdef HISTORY
 	options NEWDB; // only rebuild database for history runs
 #endif
 }
