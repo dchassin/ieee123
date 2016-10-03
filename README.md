@@ -38,7 +38,7 @@ Connecting
 ----------
 
 The main control page is reached by directing your web browser to the system's
-home page:
+home page, e.g.,
 
-  > http://hostname/
+  > http://localhost/
 
