@@ -65,6 +65,42 @@ object recorder {
         header_fieldnames "name";
 }
 
+object recorder {
+        connection scada;
+        table switch;
+        parent sw250to251;
+        property "phase_A_state,phase_B_state,phase_C_state";
+        interval 4;
+        header_fieldnames "name";
+}
+
+object recorder {
+        connection scada;
+        table switch;
+        parent sw300to350;
+        property "phase_A_state,phase_B_state,phase_C_state";
+        interval 4;
+        header_fieldnames "name";
+}
+
+object recorder {
+        connection scada;
+        table switch;
+        parent sw450to451;
+        property "phase_A_state,phase_B_state,phase_C_state";
+        interval 4;
+        header_fieldnames "name";
+}
+
+object recorder {
+        connection scada;
+        table switch;
+        parent sw95to195;
+        property "phase_A_state,phase_B_state,phase_C_state";
+        interval 4;
+        header_fieldnames "name";
+}
+
 //
 // Regulators
 //

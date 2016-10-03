@@ -120,6 +120,7 @@ object currdump {
 // Power system topology
 //
 #include "feeder.glm"
+#include "lateral.glm"
 
 //
 // Power system geoinformation
