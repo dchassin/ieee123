@@ -8,13 +8,19 @@ cd $HOME
 if [ $# -gt 0 -a $1 == "-q" ]; then
 	QUIET=1
 	shift
+elif [ $# -gt 0 -a $1 == "-qq" ]; then
+	QUIET=2
+	shift
 else
 	QUIET=0
 fi
 
 function help_syntax()
 {
-	echo "Syntax: $(basename $0) <command> [<argument>]"
+	echo 'Syntax: $(basename $0) [<options>] <command> [<argument>]
+Valid options:
+  -q   short status output for single model commands
+  -qq  short load output for single model commands'	
 }
 
 function status ()
@@ -25,21 +31,24 @@ function status ()
 			[ $QUIET -eq 0 -o $# -eq 0 ] && [ $N -eq 1 ] && echo "ID MODEL           STATUS        LOAD"
 			[ $QUIET -eq 0 -o $# -eq 0 ] && printf "%2d %-16.16s" $((N++)) $M
 			if [ ! -f $M.glm ]; then
-				echo "missing glm"
+				[ $QUIET -ne 2 ] && echo "missing glm"
 			elif [ -f $M.pid ]; then
 				PID=$(cat $M.pid)
 				if [ x$PID == x ]; then
-					echo "empty pidfile"
+					[ $QUIET -ne 2 ] && echo "empty pidfile"
 				elif [ $(ps --no-headers -q $PID | cut -c25-)x != gridlabd.binx ]; then
-					echo "bad pidfile"
-				elif [ $QUIET -eq 0 ]; then
+					[ $QUIET -ne 2 ] && echo "bad pidfile"
+				elif [ $QUIET -eq 0 -o $# -eq 0 ]; then
 					P=$(curl -s http://localhost:${M/model-/}/raw/realtime_metric)
 					printf "ok            %.1f%%\n" $(dc -e "1 ${P/+/} - 100 * p")
+				elif [ $QUIET -eq 2 -a $# -ne 0 ]; then
+					P=$(curl -s http://localhost:${M/model-/}/raw/realtime_metric)
+					printf "%.1f%%\n" $(dc -e "1 ${P/+/} - 100 * p")
 				else
 					echo "ok"
 				fi
 			else
-				echo "no pidfile"
+				[ $QUIET -ne 2 ] && echo "no pidfile"
 			fi
 		fi
 	done
@@ -193,11 +202,12 @@ function help ()
 {
 	if [ $# -eq 0 ]; then
 		help_syntax
-		echo '  status    get status of service'
-		echo '  start     start the service'
-		echo '  stop      stop the service'
-		echo '  restart   restart the service'
-		echo '  fix       fix a problem'
+		echo 'Valid commands:
+  status    get status of service
+  start     start the service
+  stop      stop the service
+  restart   restart the service
+  fix       fix a problem'
 	else
 		case $1 in
 		(status|start|stop|restart|fix)
