@@ -88,6 +88,9 @@ module powerflow {
 	solver_method NR;
 	line_capacitance true;
 }
+#if SOLAR==yes
+module generators;
+#endif
 
 #ifdef VOLTDUMP
 #print Voltage dump to ${VOLTDUMP} is enabled...
@@ -165,8 +168,11 @@ object database {
 //
 ///////////////////////////////////////////////////////
 #if LOADS==yes
-#print Replace static loads with dynamic loads...
 #include "loads.glm"
+#else
+#if SOLAR==yes
+#include "loads.glm"
+#endif
 #endif
 
 ///////////////////////////////////////////////////////
