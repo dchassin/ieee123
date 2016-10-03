@@ -51,6 +51,23 @@
 		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
 	</TD></TR>
 
+	<TR><TD>250-251 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
+	</TD></TR>
+	<TR><TD>300-350 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
+	</TD></TR>
+	<TR><TD>450-451 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
+	</TD></TR>
+	<TR><TD>95-195 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
+	</TD></TR>
+
 	<TR><TH COLSPAN=4><HR/></TH></TR>
 	<TR><TH ALIGN=LEFT COLSPAN=4>Capacitors</TH></TR>
 	<TR><TD>83 A</TD><TD><DIV ID="cap_83A"></DIV></TD><TD>
@@ -101,6 +118,10 @@
 	    document.getElementById("sw60to160").innerHTML = GLDGetProperty("sw60to160","status");
 	    document.getElementById("sw61to6101").innerHTML = GLDGetProperty("sw61to6101","status");
 	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw97to197","status");
+	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw250to251","status");
+	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw300to350","status");
+	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw450to451","status");
+	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw95to195","status");
 	    document.getElementById("sw15001to149").innerHTML = GLDGetProperty("sw15001to149","status");
 	    document.getElementById("cap_83A").innerHTML = GLDGetProperty("cap_83","switchA");
 	    document.getElementById("cap_83_voltageA").innerHTML = GLDGetProperty("cap_83","voltage_A[kV,2fM]");
