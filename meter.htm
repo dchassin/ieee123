@@ -12,7 +12,7 @@
 
 <BODY ONLOAD="refresh();">
 
-<SCRIPT src="gridlabd.js"></SCRIPT>
+<SCRIPT src="gridlabd.js"> </SCRIPT>
 
 <A HREF="control.htm">Simulation</A> 
 <A HREF="weather.htm">Weather</A>
@@ -29,10 +29,8 @@
 	<TR><TH ALIGN=LEFT COLSPAN=7><HR/></TH></TR>
 
 <SCRIPT TYPE="text/javascript">
-	var rows = [1,2,4,5,6,7,9,10,11,12,16,17,19,20,22,24,28,29,30,31,32,33,34,35,37,38,39,41,42,43,45,46,47,48,49,50,51,52,53,55,56,58,59,60,62,63,64,65,66,68,69,70,71,73,74,75,76,77,79,80,82,83,84,85,86,87,88,90,92,94,95,96,98,99,100,102,103,104,106,107,109,111,112,113,114];
-	for ( i in rows ) 
+	for ( id = 1 ; id < 10 ; id++ ) 
 	{
-		var id = rows[i];
 		document.writeln('<TR><TD>'+id+'</TD>'
 			+ '<TD><DIV ID="meter_'+id+'_status"></DIV></TD>'
 			+ '<TD><INPUT TYPE="submit" VALUE="DISCONNECT" ONCLICK="GLDSetProperty(\'meter_'+id+'\',\'service_status\',\'OUT_OF_SERVICE\');" />'
@@ -63,10 +61,9 @@
 		else
 		    document.getElementById("status").innerHTML = "Update failed";			    
 	    document.getElementById("clock").innerHTML = GLDGetGlobal("clock");
-	    for ( var i in rows ) 
+	    for ( id = 1 ; id < 10 ; id++ ) 
 	    {
-	    	var id = rows[i];
-			document.getElementById("meter_"+id+"_status").innerHTML = GLDGetProperty("meter_"+id,"service_status");
+		document.getElementById("meter_"+id+"_status").innerHTML = GLDGetProperty("meter_"+id,"service_status");
 	    	document.getElementById("meter_"+id+"_power").innerHTML = GLDGetProperty("meter_"+id,"measured_real_power[kW,1f]");
 	    	document.getElementById("meter_"+id+"_energy").innerHTML = GLDGetProperty("meter_"+id,"measured_real_energy[kWh,1f]");
 	    	document.getElementById("meter_"+id+"_voltage_1").innerHTML = GLDGetProperty("meter_"+id,"voltage_1[V,1fM]");
