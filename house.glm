@@ -60,6 +60,7 @@ object triplex_meter:..${COUNT} {
 #endif
 #if SOLAR==yes
 	object inverter {
+		name `inverter_{SEQ_CUSTID}`;
 		phases AS;
 		rated_power 25000;	
 		generator_mode CONSTANT_PF;
@@ -67,6 +68,7 @@ object triplex_meter:..${COUNT} {
 		inverter_efficiency 0.9;
 		inverter_type PWM;
 		object solar {
+			name `solar_{SEQ_CUSTID}`;
 			phases AS;
 			area 350 sf;
 			generator_status ONLINE;
