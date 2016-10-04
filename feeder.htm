@@ -14,62 +14,79 @@
 
 <SCRIPT src="gridlabd.js"></SCRIPT>
 
+<H1><A HREF="http://<<<HOSTNAME>>>/">Welcome</A></H1>
+<H2>
+<A HREF="http://<<<HOSTNAME>>>:6266/rt/feeder.htm">Model-6266</A>
+<A HREF="http://<<<HOSTNAME>>>:6267/rt/feeder.htm">Model-6267</A>
+<A HREF="http://<<<HOSTNAME>>>:6268/rt/feeder.htm">Model-6268</A>
+<A HREF="http://<<<HOSTNAME>>>:6269/rt/feeder.htm">Model-6269</A>
+</H2>
+<H3>
 <A HREF="control.htm">Simulation</A> 
 <A HREF="weather.htm">Weather</A>
 <A HREF="feeder.htm">Feeder</A>
 <A HREF="meter.htm">Meter</A>
 <A HREF="/kml/model.kml">Map</A>
+</H3>
 
 <TABLE WIDTH="100%">
-	<TR><TH COLSPAN=4>Feeder<HR/></TH></TR>
+	<TR><TH COLSPAN=4>Feeder <<<PORT>>><HR/></TH></TR>
 	<TR><TD>Date/Time</TD><TD COLSPAN=3><DIV ID="clock"></DIV></TD></TR>
 	<TR><TH COLSPAN=4><HR/></TH></TR>
 
-	<TR><TH ALIGN=LEFT COLSPAN=4>Switches</TH></TR>
+	<TR><TH ALIGN=LEFT COLSPAN=3>Switches</TH><TH ALIGN=LEFT>Current(s)</TH></TR>
 	<TR><TD>13-152 ABC</TD><TD><DIV ID="sw13to152"></DIV></TD><TD>
 		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw13to152','status','OPEN');" />
 		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw13to152','status','CLOSED');" />
-	</TD></TR>
+	</TD><TD><DIV ID=sw13to152_current></DIV></DIV></TD></TR>
 	<TR><TD>18-135 ABC</TD><TD><DIV ID="sw18to135"></DIV></TD><TD>
 		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw18to135','status','OPEN');" />
 		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw18to135','status','CLOSED');" />
-	</TD></TR>
+	</TD><TD><DIV ID=sw18to135_current></DIV></DIV></TR>
+	<TR><TD>54-94 ABC</TD><TD><DIV ID="sw54to94"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw54to94','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw54to94','status','CLOSED');" />
+	</TD><TD><DIV ID=sw54to94_current></DIV></DIV></TR>
 	<TR><TD>60-160 ABC</TD><TD><DIV ID="sw60to160"></DIV></TD><TD>
 		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw60to160','status','OPEN');" />
 		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw60to160','status','CLOSED');" />
-	</TD></TR>
+	</TD><TD><DIV ID=sw60to160_current></DIV></DIV></TR>
 	<TR><TD>61-6101 ABC</TD><TD><DIV ID="sw61to6101"></DIV></TD><TD>
 		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw61to6101','status','OPEN');" />
 		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw61to6101','status','CLOSED');" />
-	</TD></TR>
+	</TD><TD><DIV ID=sw61to6101_current></DIV></DIV></TR>
 	<TR><TD>97-197 ABC</TD><TD><DIV ID="sw97to197"></DIV></TD><TD>
 		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw97to197','status','OPEN');" />
 		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw97to197','status','CLOSED');" />
-	</TD></TR>
+	</TD><TD><DIV ID=sw97to197_current></DIV></DIV></TR>
+	<TR><TD>151-300 ABC</TD><TD><DIV ID="sw151to300"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw151to300','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw151to300','status','CLOSED');" />
+	</TD><TD><DIV ID=sw151to300_current></DIV></DIV></TR>
+	<TR><TH ALIGN=LEFT COLSPAN=4>Lateral</TH></TR>
 	<TR><TD>15001-149 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
 		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
 		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
-	</TD></TR>
-
-	<TR><TD>250-251 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
-		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
-	</TD></TR>
-	<TR><TD>300-350 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
-		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
-	</TD></TR>
-	<TR><TD>450-451 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
-		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
-	</TD></TR>
-	<TR><TD>95-195 ABC</TD><TD><DIV ID="sw15001to149"></DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw15001to149','status','OPEN');" />
-		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw15001to149','status','CLOSED');" />
-	</TD></TR>
+	</TD><TD><DIV ID=sw15001to149_current></DIV></DIV></TR>
+	<TR><TD>250-251 ABC</TD><TD><DIV ID="sw250to251"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw250to251','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw250to251','status','CLOSED');" />
+	</TD><TD><DIV ID=sw250to251_current></DIV></DIV></TR>
+	<TR><TD>300-350 ABC</TD><TD><DIV ID="sw300to350"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw300to350','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw300to350','status','CLOSED');" />
+	</TD><TD><DIV ID=sw300to350_current></DIV></DIV></TR>
+	<TR><TD>450-451 ABC</TD><TD><DIV ID="sw450to451"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw450to451','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw450to451','status','CLOSED');" />
+	</TD><TD><DIV ID=sw450to451_current></DIV></DIV></TR>
+	<TR><TD>95-195 ABC</TD><TD><DIV ID="sw95to195"></DIV></TD><TD>
+		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('sw95to195','status','OPEN');" />
+		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('sw95to195','status','CLOSED');" />
+	</TD><TD><DIV ID=sw95to195_current></DIV></DIV></TR>
 
 	<TR><TH COLSPAN=4><HR/></TH></TR>
-	<TR><TH ALIGN=LEFT COLSPAN=4>Capacitors</TH></TR>
+	<TR><TH ALIGN=LEFT COLSPAN=3>Capacitors</TH><TH ALIGN=LEFT>Voltage</TH></TR>
 	<TR><TD>83 A</TD><TD><DIV ID="cap_83A"></DIV></TD><TD>
 		<INPUT TYPE="submit" VALUE="OPEN" ONCLICK="GLDSetProperty('cap_83','switchA','OPEN');" />
 		<INPUT TYPE="submit" VALUE="CLOSE" ONCLICK="GLDSetProperty('cap_83','switchA','CLOSED');" />
@@ -114,15 +131,29 @@
 		    document.getElementById("status").innerHTML = "No response";			    
 	    document.getElementById("clock").innerHTML = GLDGetGlobal("clock");
 	    document.getElementById("sw13to152").innerHTML = GLDGetProperty("sw13to152","status");
+	    document.getElementById("sw13to152_current").innerHTML = GLDGetProperty("sw13to152","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw13to152","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw13to152","current_out_C[A,0fM]");
 	    document.getElementById("sw18to135").innerHTML = GLDGetProperty("sw18to135","status");
+	    document.getElementById("sw18to135_current").innerHTML = GLDGetProperty("sw18to135","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw18to135","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw18to135","current_out_C[A,0fM]");
+	    document.getElementById("sw54to94").innerHTML = GLDGetProperty("sw54to94","status");
+	    document.getElementById("sw54to94_current").innerHTML = GLDGetProperty("sw54to94","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw54to94","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw54to94","current_out_C[A,0fM]");
 	    document.getElementById("sw60to160").innerHTML = GLDGetProperty("sw60to160","status");
+	    document.getElementById("sw60to160_current").innerHTML = GLDGetProperty("sw60to160","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw60to160","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw60to160","current_out_C[A,0fM]");
 	    document.getElementById("sw61to6101").innerHTML = GLDGetProperty("sw61to6101","status");
+	    document.getElementById("sw61to6101_current").innerHTML = GLDGetProperty("sw61to6101","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw61to6101","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw61to6101","current_out_C[A,0fM]");
 	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw97to197","status");
-	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw250to251","status");
-	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw300to350","status");
-	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw450to451","status");
-	    document.getElementById("sw97to197").innerHTML = GLDGetProperty("sw95to195","status");
+	    document.getElementById("sw97to197_current").innerHTML = GLDGetProperty("sw97to197","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw97to197","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw97to197","current_out_C[A,0fM]");
+	    document.getElementById("sw151to300").innerHTML = GLDGetProperty("sw151to300","status");
+	    document.getElementById("sw151to300_current").innerHTML = GLDGetProperty("sw151to300","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw151to300","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw151to300","current_out_C[A,0fM]");
 	    document.getElementById("sw15001to149").innerHTML = GLDGetProperty("sw15001to149","status");
+	    document.getElementById("sw15001to149_current").innerHTML = GLDGetProperty("sw15001to149","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw15001to149","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw15001to149","current_out_C[A,0fM]");
+	    document.getElementById("sw250to251").innerHTML = GLDGetProperty("sw250to251","status");
+	    document.getElementById("sw250to251_current").innerHTML = GLDGetProperty("sw250to251","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw250to251","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw250to251","current_out_C[A,0fM]");
+	    document.getElementById("sw300to350").innerHTML = GLDGetProperty("sw300to350","status");
+	    document.getElementById("sw300to350_current").innerHTML = GLDGetProperty("sw300to350","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw300to350","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw300to350","current_out_C[A,0fM]");
+	    document.getElementById("sw450to451").innerHTML = GLDGetProperty("sw450to451","status");
+	    document.getElementById("sw450to451_current").innerHTML = GLDGetProperty("sw450to451","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw450to451","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw450to451","current_out_C[A,0fM]");
+	    document.getElementById("sw95to195").innerHTML = GLDGetProperty("sw95to195","status");
+	    document.getElementById("sw95to195_current").innerHTML = GLDGetProperty("sw95to195","current_out_A[A,0fM]") + ' / ' + GLDGetProperty("sw95to195","current_out_B[A,0fM]") + ' / ' + GLDGetProperty("sw95to195","current_out_C[A,0fM]");
 	    document.getElementById("cap_83A").innerHTML = GLDGetProperty("cap_83","switchA");
 	    document.getElementById("cap_83_voltageA").innerHTML = GLDGetProperty("cap_83","voltage_A[kV,2fM]");
 	    document.getElementById("cap_83B").innerHTML = GLDGetProperty("cap_83","switchB");

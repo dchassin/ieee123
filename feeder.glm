@@ -896,7 +896,7 @@ object load {
 object load {
 	name load_94;
 	groupid nodevolts;
-	phases AN;
+	phases ABCN;
 	constant_power_A 40000.000000+20000.000000j;
 	nominal_voltage 2401.7771;
 }
@@ -1859,11 +1859,11 @@ object overhead_line {
 
 object overhead_line {
 	name line93to94;
-	phases AN;
+	phases ABCN;
 	from node_93;
 	to load_94;
 	length 275.00;
-	configuration lc309;
+	configuration lc306;
 }
 
 object overhead_line {
@@ -2156,6 +2156,14 @@ object switch {
 }
 
 object switch {
+	name sw54to94;
+	phases ABCN;
+	from node_54;
+	to load_94;
+	status OPEN;
+}
+
+object switch {
 	name sw60to160;
 	phases ABCN;
 	from load_60;
@@ -2179,6 +2187,13 @@ object switch {
 	status CLOSED;
 }
 
+object switch {
+	name sw151to300;
+	phases ABCN;
+	from node_151;
+	to node_300;
+	status OPEN;
+}
 object switch {
 	name sw15001to149;
 	phases ABCN;
