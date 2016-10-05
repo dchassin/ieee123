@@ -14,9 +14,9 @@ The recommended build sequence after the mysql server is setup is
 
   > host% sudo su gridlabd
 
-  > host% svn co http://code.sf.net/p/gridlab-d/code/trunk ~gridlabd/trunk
+  > host% git clone git@code.stanford.edu:/gridlabd/gridlabd source
 
-  > host% cd ~gridlabd/trunk
+  > host% cd ~gridlabd/source
 
   > host% autoreconf -isf
 
