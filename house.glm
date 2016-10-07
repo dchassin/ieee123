@@ -38,6 +38,7 @@ object node {
 }
 object triplex_meter:..${COUNT} { 
 	name `meter_{SEQ_CUSTID:INC}`;
+	group load_${LOADID};
 	parent node_${LOADID}${PHASE};
 	phases ${PHASE}S;
 	nominal_voltage 120;
