@@ -33,7 +33,11 @@
 
 #print Setting up realtime server on ${HOSTNAME}:${PORT}
 #option server // enables the server
+#ifdef HOSTNAME
 #set hostname=${HOSTNAME}  // tells clients where to get the data
+#else
+#error HOSTNAME is not defined in either your environment or in config.glm
+#endif
 #set run_realtime=1 // tells the server to run in realtime mode
 #set server_portnum=${PORT} // is the port that clients will connect to
 #set suppress_repeat_messages=FALSE // allow all similar messages to be logged
@@ -132,14 +136,19 @@ object currdump {
 // MYSQL DATABASE SUPPORT
 //
 ///////////////////////////////////////////////////////
-#print Setting up database for model ${NAME}...
+#ifndef MYSQLHOST
+#define MYSQLHOST=localhost
+#endif
+#print Setting up database for model ${NAME} on ${MYSQLHOST}...
 module mysql {
-	hostname "localhost";
+	hostname "${MYSQLHOST}";
 	username "gridlabd";
 	password "gridlabd";
 #ifdef SOCKETNAME
-#print Using socket ${SOCKETNAME}...
+#print Using socket ${SOCKETNAME} for MySQL...
 	socketname "${SOCKETNAME}";
+#else
+#print Using default port 3306 for MySQL...	
 #endif
 }
 

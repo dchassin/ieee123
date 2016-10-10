@@ -46,9 +46,14 @@
 #define HISTORY_END_MONTH=10
 
 //
-// Server hostname (required for realtime runs)
+// Web server hostname (required for realtime runs)
+// by default this is taken from the environment variable HOSTNAME
+//#define HOSTNAME=mywebhost.mycompany.com
+
 //
-#define HOSTNAME=gridlabd.slac.stanford.edu
+// MySQL server hostname (required if not using localhost)
+//
+//#define MYSQLHOST=mysqlhost.mycompany.com
 
 //
 // MySQL connection method (uncomment if using a local socket instead of port 3306)
