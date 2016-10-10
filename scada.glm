@@ -15,7 +15,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw13to152;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
@@ -24,7 +24,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw18to135;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
@@ -33,7 +33,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw60to160;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
@@ -42,7 +42,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw61to6101;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
@@ -51,7 +51,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw97to197;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
@@ -60,7 +60,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw15001to149;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
@@ -69,7 +69,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw250to251;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
@@ -78,7 +78,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw300to350;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
@@ -87,7 +87,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw450to451;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
@@ -96,7 +96,7 @@ object recorder {
         connection scada;
         table switch;
         parent sw95to195;
-        property "phase_A_state,phase_B_state,phase_C_state";
+        property "phase_A_state,phase_B_state,phase_C_state,current_in_A,current_in_B,current_in_C";
         interval 4;
         header_fieldnames "name";
 }
