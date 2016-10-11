@@ -93,6 +93,7 @@ object climate {
 module powerflow {
 	solver_method NR;
 	line_capacitance true;
+	convergence_error_handling IGNORE;
 }
 #if SOLAR==yes
 module generators;
@@ -200,6 +201,13 @@ object database {
 #print Setting up SCADA system...
 #include "scada.glm"
 #endif
+
+///////////////////////////////////////////////////////
+//
+// CONTROLS
+//
+///////////////////////////////////////////////////////
+#include "control.glm"
 
 ///////////////////////////////////////////////////////
 //
