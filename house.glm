@@ -56,7 +56,7 @@ object triplex_meter:..${COUNT} {
 		table meter;
 		property "measured_voltage_1,measured_voltage_2,measured_demand,measured_real_power,measured_reactive_power,measured_real_energy,measured_reactive_energy,measured_current_1,measured_current_2,measured_current_N";
 		interval 900;
-		header_fieldnames "name";
+		header_fieldnames "name,groupid";
 	};
 #endif
 #if SOLAR==yes
