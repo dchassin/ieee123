@@ -5,19 +5,21 @@
 // This GLM converts a static load into into an specified number of houses
 // Parameters:
 //
+//   AREA   - specifies the control area in which the load bus is located
 //   LOADID - specifies the load number to convert
 //   PHASE  - specifies the split phase on which the load is placed
 //   COUNT  - specifies the number of houses to connect
 //
 // Example usage:
 //
-//   #include using(LOADID=1,PHASE=A,COUNT=4) "load.glm"
+//   #include using(AREA=A,LOADID=1,PHASE=A,COUNT=4) "load.glm"
 //
  
-#debug Converting static load ${LOADID} phase ${PHASE} to ${COUNT} houses
+#debug Converting area ${AREA} static load ${LOADID} phase ${PHASE} to ${COUNT} houses
 
 // remove static load
 #if LOADS==yes
+modify load_${LOADID}.groupid area_${AREA};
 modify load_${LOADID}.constant_power_${PHASE} 0+0j;	
 modify load_${LOADID}.constant_current_${PHASE} 0+0j;	
 modify load_${LOADID}.constant_impedance_${PHASE} 0+0j;	
