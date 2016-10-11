@@ -39,10 +39,10 @@ function status ()
 				elif [ $(ps --no-headers -q $PID | cut -c25-)x != gridlabd.binx ]; then
 					[ $QUIET -ne 2 ] && echo "bad pidfile"
 				elif [ $QUIET -eq 0 -o $# -eq 0 ]; then
-					P=$(curl -s http://localhost:${M/model-/}/raw/realtime_metric)
+					P=$(wget --timeout=1 -qqqq -O - "http://localhost:${M/model-/}/raw/realtime_metric")
 					printf "ok            %.1f%%\n" $(dc -e "1 ${P/+/} - 100 * p")
 				elif [ $QUIET -eq 2 -a $# -ne 0 ]; then
-					P=$(curl -s http://localhost:${M/model-/}/raw/realtime_metric)
+					P=$(wget --timeout=1 -qqqq -O - "http://localhost:${M/model-/}/raw/realtime_metric")
 					printf "%.1f%%\n" $(dc -e "1 ${P/+/} - 100 * p")
 				else
 					echo "ok"
@@ -89,17 +89,17 @@ function start ()
 				echo "missing glm"
 			elif [ ! -f $M.pid ]; then
 				echo -n "starting..."
-				su gridlabd -c "gridlabd -V --pidfile=$M.pid $OPTIONS $M.glm" 1>>$STDLOG 2>>$ERRLOG &
+				su gridlabd -c "gridlabd -V --pidfile=$M.pid $OPTIONS $M.glm" 1>>$STDLOG-$M 2>>$ERRLOG-$M &
 				N=10
 				while [ ! -f $M.pid -a $((N--)) -gt 0 ]; do
 					sleep 1
 				done
 				if [ $N -gt 0 ]; then
 					echo "ok"
-					echo "$(date): service gridlabd start model '$M' ok" | tee -a $STDLOG >>$ERRLOG
+					echo "$(date): service gridlabd start model '$M' ok" | tee -a $STDLOG-$M >>$ERRLOG-$M
 				else
 					echo "timeout"
-					echo "$(date): service gridlabd start model '$M' timeout" | tee -a $STDLOG >>$ERRLOG
+					echo "$(date): service gridlabd start model '$M' timeout" | tee -a $STDLOG-$M >>$ERRLOG-$M
 					fi
 			else
 				status $M
@@ -130,10 +130,10 @@ function stop ()
 					done
 					if [ $N -gt 0 ]; then
 						echo "ok"
-						echo "$(date): service gridlabd model '$M' stop ok" | tee -a $STDLOG >>$ERRLOG
+						echo "$(date): service gridlabd model '$M' stop ok" | tee -a $STDLOG-$M >>$ERRLOG-$M
 					else
 						echo "timeout"
-						echo "$(date): service gridlabd model '$M' stop timeout" | tee -a $STDLOG >>$ERRLOG
+						echo "$(date): service gridlabd model '$M' stop timeout" | tee -a $STDLOG-$M >>$ERRLOG-$M
 					fi
 				fi
 			else
