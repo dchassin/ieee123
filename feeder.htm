@@ -90,15 +90,51 @@
 	<TR><TH ALIGN=LEFT COLSPAN=3>Coordination</TH><TH ALIGN=LEFT>Armed switches</TH></TR>
 	<TR><TD>Manual</DIV></TD>
 		<TD><DIV ID="manual_1_status"></DIV></TD><TD>
-			<INPUT TYPE="submit" VALUE="EXECUTE" ONCLICK="coordinate_execute('manual_1');" />
+			<INPUT TYPE="submit" VALUE="EXECUTE" ONCLICK="coordinate_execute('manual_1','TOGGLE');" />
 			<INPUT TYPE="submit" VALUE="RESET" ONCLICK="coordinate_reset('manual_1');" />
 		</TD>
 		<TD><DIV ID="manual_1_armed"></DIV></TD>
-	<TR><TD>Plan 1</DIV></TD>
-		<TD><DIV ID="plan_1_status">MANUAL</DIV></TD><TD>
-			<INPUT TYPE="submit" VALUE="EXECUTE" ONCLICK="coordinate_execute('plan_1');" />
+		
+	<TR><TD>Program 1</DIV></TD>
+		<TD><DIV ID="program_1_status">DIRECT</DIV></TD><TD>
+			<INPUT TYPE="submit" VALUE="EXECUTE" ONCLICK="coordinate_execute('program_1','DIRECT');" />
 		</TD>
-		<TD><DIV ID="plan_1_armed">sw60to160|sw151to300</DIV></TD>
+		<TD><DIV ID="program_1_armed">sw15001to149|sw13to152|sw18to135|sw60to160|sw61to6101|sw97to197</DIV></TD>
+	</TR>
+
+	<TR><TD>Program 2</DIV></TD>
+		<TD><DIV ID="program_2_status">DIRECT</DIV></TD><TD>
+			<INPUT TYPE="submit" VALUE="EXECUTE" ONCLICK="coordinate_execute('program_2','DIRECT');" />
+		</TD>
+		<TD><DIV ID="program_2_armed">sw15001to149|sw13to152|sw60to160|sw61to6101|sw97to197|sw151to300</DIV></TD>
+	</TR>
+
+	<TR><TD>Program 3</DIV></TD>
+		<TD><DIV ID="program_3_status">DIRECT</DIV></TD><TD>
+			<INPUT TYPE="submit" VALUE="EXECUTE" ONCLICK="coordinate_execute('program_3','DIRECT');" />
+		</TD>
+		<TD><DIV ID="program_3_armed">sw15001to149|sw13to152|sw54to94|sw61to6101|sw97to197|sw151to300</DIV></TD>
+	</TR>
+
+	<TR><TD>Program 4</DIV></TD>
+		<TD><DIV ID="program_4_status">DIRECT</DIV></TD><TD>
+			<INPUT TYPE="submit" VALUE="EXECUTE" ONCLICK="coordinate_execute('program_4','DIRECT');" />
+		</TD>
+		<TD><DIV ID="program_4_armed">sw15001to149|sw13to152|sw18to135|sw54to94|sw61to6101|sw97to197</DIV></TD>
+	</TR>
+
+	<TR><TD>Program 5</DIV></TD>
+		<TD><DIV ID="program_5_status">DIRECT</DIV></TD><TD>
+			<INPUT TYPE="submit" VALUE="EXECUTE" ONCLICK="coordinate_execute('program_5','DIRECT');" />
+		</TD>
+		<TD><DIV ID="program_5_armed">sw15001to149|sw13to152|sw18to135|sw54to94|sw61to6101|sw151to300</DIV></TD>
+	</TR>
+
+	<TR><TD>Program 6</DIV></TD>
+		<TD><DIV ID="program_6_status">DIRECT</DIV></TD><TD>
+			<INPUT TYPE="submit" VALUE="EXECUTE" ONCLICK="coordinate_execute('program_6','DIRECT');" />
+		</TD>
+		<TD><DIV ID="program_6_armed">sw15001to149|sw13to152|sw18to135|sw60to160|sw61to6101|sw151to300</DIV></TD>
 	</TR>
 
 	<TR><TH COLSPAN=4><HR/></TH></TR>
@@ -207,20 +243,20 @@
 		GLDSetProperty(scheme,'armed','NONE');
 		update();
 	}
-	function coordinate_execute(plan)
+	function coordinate_execute(program,mode)
 	{
-		armed = document.getElementById(plan + '_armed').innerHTML; 
+		armed = document.getElementById(program + '_armed').innerHTML; 
 		if ( armed != 'NONE' ) 
 		{
 			GLDSetProperty('scheme_1','armed',armed);
-			GLDSetProperty('scheme_1','status','ACTIVE'); 
+			GLDSetProperty('scheme_1','status',mode); 
 			sleep(1000);
 			update();
 		}
 	}
-	function coordinate_reset(plan)
+	function coordinate_reset(program)
 	{
-		armed = document.getElementById(plan + '_armed').innerHTML; 
+		armed = document.getElementById(program + '_armed').innerHTML; 
 		{
 			GLDSetProperty('scheme_1','status','IDLE');
 			GLDSetProperty('scheme_1','armed','NONE');
