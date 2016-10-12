@@ -48,6 +48,17 @@
 #define TMYTYPE=tmy3
 
 //
+// Solar panel design
+//
+// PVAREA can be defined random, e.g., random.trianble(200,500)
+//
+// PVPROB specifies the probability that a house has an active PVUNIT. Note
+// that a PV unit is always installed when SOLAR=yes, but it is not 
+// online unless the Bernoulli probability at PVPROB is 1.
+#define PVAREA=350 sf
+#define PVPROB=1.0
+
+//
 // Baseline period (required only for history runs)
 //
 #define HISTORY_YEAR=2016

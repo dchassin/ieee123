@@ -10,6 +10,13 @@
 //   PHASE  - specifies the split phase on which the load is placed
 //   COUNT  - specifies the number of houses to connect
 //
+// Optional parameters
+//
+//   LOADS  - specifies that dynamic loads are enabled
+//   PVAREA - specifies the area of PV panels if SOLAR==yes (default 350 sf)
+//   SOLAR  - specifies that solar panels are installed
+//   PVPROB - specifies the probability that a PV is installed
+//
 // Example usage:
 //
 //   #include using(AREA=A,LOADID=1,PHASE=A,COUNT=4) "load.glm"
@@ -23,6 +30,13 @@ modify load_${LOADID}.groupid area_${AREA};
 modify load_${LOADID}.constant_power_${PHASE} 0+0j;	
 modify load_${LOADID}.constant_current_${PHASE} 0+0j;	
 modify load_${LOADID}.constant_impedance_${PHASE} 0+0j;	
+#endif
+
+// add solar panel installation rank
+#ifdef PVPROB
+class solar {
+	double installed;
+}
 #endif
 
 // load/solar connection
@@ -73,8 +87,17 @@ object triplex_meter:..${COUNT} {
 		object solar {
 			name `solar_{SEQ_CUSTID}`;
 			phases AS;
+#ifndef PVAREA
 			area 350 sf;
+#else
+			area ${PVAREA};
+#endif
+#ifndef PVPROB
 			generator_status ONLINE;
+#else
+			installed random.bernoulli(${PVPROB});
+			generator_status ($installed) ? OFFLINE : ONLINE; 
+#endif			
 			generator_mode SUPPLY_DRIVEN;
 			panel_type SINGLE_CRYSTAL_SILICON;
 		 };
