@@ -53,7 +53,7 @@ object node {
 object switch {
 	name sw250to251;
 	phases ABCN;
-	from node_251;
+	from node_250;
 	to node_251;
 	status OPEN;
 }
