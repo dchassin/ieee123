@@ -32,11 +32,20 @@
 //
 // The STATE, CITY, and TIMEZONE are required to establish the weather and
 // clock configurations.  The TMY2 file <STATE>-<CITY>.tmy2 must be loaded
-// in the $HOME folder.
+// in the $HOME folder. You may choose to use TMY3 data using the TMYTYPE
+// configuration (see below)
 //
 #define STATE=CA
 #define CITY=Bakersfield
 #define TIMEZONE=US/CA/Los Angeles
+
+//
+// Weather data specification (required for all runs)
+//
+// There are two types of weather data files supported, TMY2 and TMY3.
+// TMY2 files may not work correctly for certain timezones. The default is
+// TMY3.
+#define TMYTYPE=tmy3
 
 //
 // Baseline period (required only for history runs)

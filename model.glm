@@ -63,11 +63,15 @@ clock {
 // WEATHER
 //
 ///////////////////////////////////////////////////////
-#ifexist ${STATE}-${CITY}.tmy2
-#define TMY=${STATE}-${CITY}.tmy2
+#ifndef TMYTYPE
+#warning TMYTYPE is not defined, using tmy2 by default
+#define TMYTYPE=tmy2
+#endif
+#ifexist ${STATE}-${CITY}.${TMYTYPE}
+#define TMY=${STATE}-${CITY}.${TMYTYPE}
 #endif
 #ifndef TMY
-#error TMY file ${STATE}-${CITY}.tmy2 is not found; you must install this file in $HOME
+#error TMY file ${STATE}-${CITY}.${TMYTYPE} is not found; you must install this file in $HOME
 #endif
 #print Loading climate data for ${CITY} ${STATE}...
 module climate;
