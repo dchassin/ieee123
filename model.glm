@@ -203,7 +203,7 @@ object database {
 // SCADA recorders
 //
 #ifdef MYSQL_SCADA
-#print Setting up SCADA system...
+#print Setting up SCADA monitoring system...
 #include "scada.glm"
 #endif
 
@@ -212,7 +212,10 @@ object database {
 // CONTROLS
 //
 ///////////////////////////////////////////////////////
+#ifdef MYSQL_SCADA
+#print Setting up SCADA control system...
 #include "control.glm"
+#endif
 
 ///////////////////////////////////////////////////////
 //
