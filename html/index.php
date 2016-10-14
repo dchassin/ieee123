@@ -4,7 +4,10 @@
      Copyright (C) 2016, Stanford University
      Author: dchassin@slac.stanford.edu
 -->
+<HEAD>
+<META HTTP-EQUIV="refresh" CONTENT="30" />
 <TITLE>GridLAB-D Realtime Server</TITLE>
+</HEAD>
 <BODY>
 <H1>Welcome</H1>
 The following simulations are currently running on this server:
@@ -17,8 +20,14 @@ The following simulations are currently running on this server:
 </TABLE>
 
 <HR/>
-<TABLE WIDTH="100%"><TR>
-<TD ALIGN=LEFT>Source: <A HREF="https://code.stanford.edu/gridlabd/ieee123">https://code.stanford.edu/gridlabd/ieee123</A></TD>
+<TABLE WIDTH="100%">
+<TR>
+<TD ALIGN=LEFT COLSPAN=2>Version: <A HREF="https://code.stanford.edu/gridlabd/gridlabd/commits/master"><?php passthru("~gridlabd/bin/gridlabd -V");?></A></TD>
+<TD ALIGN=RIGHT>Last build: <?php passthru("stat -c '%y' ~gridlabd/bin/gridlabd.bin | cut -c1-19,30-");?></TD>
+</TD>
+</TR>
+<TR>
+<TD ALIGN=LEFT>Model: <A HREF="https://code.stanford.edu/gridlabd/ieee123">https://code.stanford.edu/gridlabd/ieee123</A></TD>
 <TD ALIGN=CENTER>Last fetch: <?php passthru("cat ~gridlabd/.update-info");?></TD>
 <TD ALIGN=RIGHT>Last build: <?php passthru("stat -c '%y' ~gridlabd/.update-info | cut -c1-19,30-");?></TD>
 </TD>
