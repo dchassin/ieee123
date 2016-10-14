@@ -32,13 +32,14 @@
 //
 #ifndef HISTORY
 
-#print Setting up realtime server on ${HOSTNAME}:${PORT}
-#option server // enables the server
 #ifdef HOSTNAME
 #set hostname=${HOSTNAME}  // tells clients where to get the data
 #else
-#error HOSTNAME is not defined in either your environment or in config.glm
+#warning HOSTNAME is not defined in either your environment or in config.glm, using localhost
+#define HOSTNAME=localhost
 #endif
+#print Setting up realtime server on ${HOSTNAME}:${PORT}
+#option server // enables the server
 #set run_realtime=1 // tells the server to run in realtime mode
 #set server_portnum=${PORT} // is the port that clients will connect to
 #set suppress_repeat_messages=FALSE // allow all similar messages to be logged

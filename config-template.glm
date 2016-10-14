@@ -78,7 +78,7 @@
 //
 // MySQL connection method (uncomment if using a local socket instead of port 3306)
 //
-#define SOCKETNAME=/var/lib/mysql/mysql.sock
+//#define SOCKETNAME=/var/lib/mysql/mysql.sock
 
 /////////////////////////////////////////////////////////////////////////////
 //

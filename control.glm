@@ -76,6 +76,9 @@ object line_sensor {
 //
 // Switch coordinator
 //
+#ifdef HISTORY
+module tape;
+#endif
 object switch_coordinator {
 	name scheme_1;
 	connect sw13to152;
@@ -97,4 +100,16 @@ object switch_coordinator {
 		interval -1;
 		header_fieldnames "name";
 	};
+#ifdef HISTORY
+	object tape.player {
+		file coordination_armed.csv;
+		property armed;
+	};
+	object tape.player {
+		file coordination_status.csv;
+		property status;
+	};
+#endif
 }
+
+
