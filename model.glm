@@ -26,10 +26,16 @@
 //
 ///////////////////////////////////////////////////////
 #set randomseed=1
+#set suppress_repeat_messages=FALSE
 
 //
 // Realtime run
 //
+#ifdef SWITCHTEST // set if short switch tests are being run
+#print Setting up switch test run on ${HISTORY_START_MONTH}/1/${HISTORY_YEAR}...
+#define HISTORY=yes
+#endif
+
 #ifndef HISTORY
 
 #ifdef HOSTNAME
@@ -51,14 +57,27 @@ clock {
 //
 #else
 
+#ifndef SWITCHTEST
 #print Setting up history run from ${HISTORY_START_MONTH}/1/${HISTORY_YEAR} to ${HISTORY_END_MONTH}/1/${HISTORY_YEAR}...
 clock {
 	timezone ${TIMEZONE};
 	starttime '${HISTORY_YEAR}-${HISTORY_START_MONTH}-01 00:00:00 PST';
 	stoptime '${HISTORY_YEAR}-${HISTORY_END_MONTH}-01 00:00:00 PST';
 }
+#endif
 
 #endif
+
+#ifdef SWITCHTEST
+#define TESTSTART=00:00:00
+#define TESTSTOP=00:15:00
+clock {
+	timezone ${TIMEZONE};
+	starttime '${HISTORY_YEAR}-${HISTORY_START_MONTH}-01 ${TESTSTART} PST';
+	stoptime '${HISTORY_YEAR}-${HISTORY_START_MONTH}-01 ${TESTSTOP} PST';
+}
+#endif
+
 
 ///////////////////////////////////////////////////////
 //
@@ -138,6 +157,21 @@ object currdump {
 //
 #include "geolocation.glm"
 
+//
+// Switch configuration test
+//
+#ifdef SWITCHINIT
+#ifexist switchtest_${SWITCHINIT}.glm
+#print Using initial switch configuration ${SWITCHINIT}
+#include "switchtest_${SWITCHINIT}.glm"
+#else
+#error switchtest_${SWITCHINIT}.glm does not exist, SWITCHINIT=${SWITCHINIT} is not valid
+#endif
+#else
+#print Using default switch configuration (SWITCHINIT=0)
+#define SWITCHINIT=0
+#endif
+
 ///////////////////////////////////////////////////////
 //
 // MYSQL DATABASE SUPPORT
@@ -158,6 +192,11 @@ module mysql {
 #print Using default port 3306 for MySQL...	
 #endif
 }
+
+#ifdef SWITCHTEST
+#define MYSQL_SCADA=ieee123_switchtest_${SWITCHINIT}
+#define MYSQL_AMI=ieee123_switchtest_${SWITCHINIT}
+#endif
 
 #ifdef MYSQL_SCADA
 #print Setting SCADA tables ${MYSQL_SCADA}...
