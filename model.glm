@@ -120,7 +120,7 @@ module powerflow {
 	line_capacitance true;
 	convergence_error_handling IGNORE;
 }
-#if SOLAR==yes
+#ifdef SOLAR==yes
 module generators;
 #endif
 
@@ -225,13 +225,7 @@ object database {
 // LOAD MODEL
 //
 ///////////////////////////////////////////////////////
-#if LOADS==yes
 #include "loads.glm"
-#else
-#if SOLAR==yes
-#include "loads.glm"
-#endif
-#endif
 
 ///////////////////////////////////////////////////////
 //

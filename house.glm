@@ -22,23 +22,40 @@
 //   #include using(AREA=A,LOADID=1,PHASE=A,COUNT=4) "load.glm"
 //
  
-#debug Converting area ${AREA} static load ${LOADID} phase ${PHASE} to ${COUNT} houses
-
 // remove static load
 #if LOADS==yes
+#debug Converting area ${AREA} static load ${LOADID} phase ${PHASE} to ${COUNT} houses
 modify load_${LOADID}.groupid area_${AREA};
 modify load_${LOADID}.constant_power_${PHASE} 0+0j;	
 modify load_${LOADID}.constant_current_${PHASE} 0+0j;	
 modify load_${LOADID}.constant_impedance_${PHASE} 0+0j;	
+#define XLOAD=yes
+#else
+#ifdef MYSQL_AMI
+object recorder {
+	parent load_${LOADID};
+	connection ami;
+	table load;
+	property "measured_voltage_A,measured_voltage_B,measured_voltage_C,measured_voltage_AB,measured_voltage_BC,measured_voltage_CA";
+	interval 900;
+	header_fieldnames "name";
+};
+#endif
 #endif
 
 // add solar panel installation rank
+#if SOLAR==yes
+#ifndef XLOAD
+#define XLOAD=yes
+#endif
 #ifdef PVPROB
 class solar {
 	double installed;
 }
 #endif
+#endif
 
+#ifdef XLOAD
 // load/solar connection
 object transformer {
 	name xfrm_${LOADID}${PHASE};
@@ -104,4 +121,5 @@ object triplex_meter:..${COUNT} {
 	};
 #endif
 }
+#endif
 
