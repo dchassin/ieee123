@@ -36,26 +36,27 @@
 	<TR><TD>Model name</TD><TD COLSPAN=2><DIV ID="modelname">...</DIV></TD></TR>
 	<TR><TD>Realtime metric</TD><TD COLSPAN=2><DIV ID="realtime_metric">...</DIV></TD></TR>
 	<TR><TD>Verbose</TD><TD><DIV ID="verbose">...</DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('verbose',0);" />
-		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('verbose',1);" />
+		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('verbose',0); refresh();" />
+
+		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('verbose',1); refresh();" />
 	</TD></TR><TR><TD>Debug</TD><TD><DIV ID="debug">...</DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('debug',0);" />
-		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('debug',1);" />
+		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('debug',0); refresh();" />
+		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('debug',1); refresh();" />
 	</TD></TR><TR><TD>Dumpall</TD><TD><DIV ID="dumpall">...</DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('dumpall',0);" />
-		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('dumpall',1);" />
+		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('dumpall',0); refresh();" />
+		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('dumpall',1); refresh();" />
 	</TD></TR><TR><TD>Quiet</TD><TD><DIV ID="quiet">...</DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('quiet',0);" />
-		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('quiet',1);" />
+		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('quiet',0); refresh();" />
+		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('quiet',1); refresh();" />
 	</TD></TR><TR><TD>Show progress</TD><TD><DIV ID="show_progress">...</DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('show_progress',0);" />
-		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('show_progress',1);" />
+		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('show_progress',0); refresh();" />
+		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('show_progress',1); refresh();" />
 	</TD></TR><TR><TD>Suppress repeat messages</TD><TD><DIV ID="suppress_repeat_messages">...</DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('suppress_repeat_messages',0);" />
-		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('suppress_repeat_messages',1);" />
+		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('suppress_repeat_messages',0); refresh();" />
+		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('suppress_repeat_messages',1); refresh();" />
 	</TD></TR><TR><TD>Warning</TD><TD><DIV ID="warn">...</DIV></TD><TD>
-		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('warn',0);" />
-		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('warn',1);" />
+		<INPUT TYPE="submit" VALUE="Off" ONCLICK="GLDSetGlobal('warn',0); refresh();" />
+		<INPUT TYPE="submit" VALUE="On" ONCLICK="GLDSetGlobal('warn',1); refresh();" />
 	</TD></TR>
 </TABLE>
 <HR/>
@@ -70,7 +71,7 @@
 	function refresh()
 	{
 		count = count + 1;
-	    setTimeout("refresh()",1000);
+	    setTimeout("refresh()",30000);
 	    if ( count == 1 )
 		    document.getElementById("status").innerHTML = "Updating";
 		else
