@@ -118,7 +118,9 @@ object climate {
 module powerflow {
 	solver_method NR;
 	line_capacitance true;
+#ifndef SWITCHTEST
 	convergence_error_handling IGNORE;
+#endif
 }
 #ifdef SOLAR==yes
 module generators;
@@ -161,9 +163,9 @@ object currdump {
 // Switch configuration test
 //
 #ifdef SWITCHINIT
-#ifexist switchtest_${SWITCHINIT}.glm
+#ifexist switchtest/switchtest_${SWITCHINIT}.glm
 #print Using initial switch configuration ${SWITCHINIT}
-#include "switchtest_${SWITCHINIT}.glm"
+#include "switchtest/switchtest_${SWITCHINIT}.glm"
 #else
 #error switchtest_${SWITCHINIT}.glm does not exist, SWITCHINIT=${SWITCHINIT} is not valid
 #endif
@@ -258,8 +260,13 @@ object database {
 ///////////////////////////////////////////////////////
 
 #ifdef MYSQL_MODEL
+#ifndef SWITCHTEST
 #print Exporting system model to mysql schema ${NAME}_model...
 export mysql ${NAME}_model;
+#else
+#print Exporting system model to mysql schema ieee123_switchtest_${SWITCHINIT}...
+export mysql ieee123_switchtest_${SWITCHINIT};
+#endif
 #endif
 
 #print Load complete.

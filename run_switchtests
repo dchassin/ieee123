@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ $# -eq 0 ]; then
+	echo "Syntax: $(basename $0) model-num ..."
+	exit
+fi
+for M in $*; do
+	for F in switchtest/switchtest_*.glm; do
+		N=$(echo $F | sed 's/[^0-9]//g' )
+		gridlabd -D SWITCHTEST=yes -D SWITCHINIT=$N $M || echo "Test $N failed."
+	done
+done

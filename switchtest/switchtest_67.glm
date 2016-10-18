@@ -1,0 +1,19 @@
+// Switch configuration 67
+
+// lateral switches
+modify sw15001to149.status CLOSED;
+modify sw250to251.status OPEN;
+modify sw450to451.status CLOSED;
+modify sw95to195.status OPEN;
+
+// area switches
+modify sw13to152.status CLOSED;
+modify sw151to300.status OPEN;
+modify sw18to135.status CLOSED;
+modify sw54to94.status OPEN;
+modify sw60to160.status OPEN;
+modify sw97to197.status CLOSED;
+
+// load switches
+modify sw300to350.status CLOSED;
+modify sw61to6101.status CLOSED;
