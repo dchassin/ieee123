@@ -264,8 +264,8 @@ object database {
 #print Exporting system model to mysql schema ${NAME}_model...
 export mysql ${NAME}_model;
 #else
-#print Exporting system model to mysql schema ieee123_switchtest_${SWITCHINIT}...
-export mysql ieee123_switchtest_${SWITCHINIT};
+#print Exporting system model to mysql schema ${NAME}_switchtest_${SWITCHINIT}...
+export mysql ${NAME}_switchtest_${SWITCHINIT};
 #endif
 #endif
 
