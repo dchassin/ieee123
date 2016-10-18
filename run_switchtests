@@ -1,0 +1,7 @@
+#!/bin/bash
+for M in model-*.glm; do
+	for F in switchtest/switchtest_*.glm; do
+		N=$(echo $F | sed 's/[^0-9]//g' )
+		echo gridlabd -D SWITCHTEST=yes -D SWITCHINIT=$N $M
+	done
+done
