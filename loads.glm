@@ -20,10 +20,12 @@ global int32 SEQ_CUSTID 0;
 
 #if LOADS==yes
 #print Adding dynamic loads...
-#elif SOLAR==yes
+#else
+#if SOLAR==yes
 #print Adding solar panels...
 #else
 #print Adding pseudo-AMI meters...
+#endif
 #endif
 
 #include using(AREA=A,LOADID=1,PHASE=A,COUNT=4) "house.glm"
