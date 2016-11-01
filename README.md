@@ -42,3 +42,9 @@ home page, e.g.,
 
   > http://localhost/
 
+Citation
+--------
+
+This model has not been published yet.  If you are the first to publish a paper using this model, then by using this model you agree to include David Chassin and Frank Tuffner as co-authors on your paper.  Thereafter, if you use this model you must cite this first paper to ensure that Frank and I are acknowledged as the original developers of this model.  Frank and I will provide you with the necessary text to ensure that the model is properly described.
+
+
