@@ -179,6 +179,7 @@ object currdump {
 // MYSQL DATABASE SUPPORT
 //
 ///////////////////////////////////////////////////////
+#ifndef NOMYSQL
 #ifndef MYSQLHOST
 #define MYSQLHOST=localhost
 #endif
@@ -221,6 +222,7 @@ object database {
 #endif
 }
 #endif
+#endif // NOMYSQL
 
 ///////////////////////////////////////////////////////
 //
@@ -235,6 +237,7 @@ object database {
 //
 ///////////////////////////////////////////////////////
 
+#ifndef NOMYSQL
 //
 // SCADA recorders
 //
@@ -242,6 +245,7 @@ object database {
 #print Setting up SCADA monitoring system...
 #include "scada.glm"
 #endif
+#endif // NOMYSQL
 
 ///////////////////////////////////////////////////////
 //
@@ -259,6 +263,7 @@ object database {
 //
 ///////////////////////////////////////////////////////
 
+#ifndef NOMYSQL
 #ifdef MYSQL_MODEL
 #ifndef SWITCHTEST
 #print Exporting system model to mysql schema ${NAME}_model...
@@ -268,5 +273,6 @@ export mysql ${NAME}_model;
 export mysql ${NAME}_switchtest_${SWITCHINIT};
 #endif
 #endif
+#endif // NOMYSQL
 
 #print Load complete.
