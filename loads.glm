@@ -20,8 +20,10 @@ global int32 SEQ_CUSTID 0;
 
 #if LOADS==yes
 #print Adding dynamic loads...
-#elif SOLAR==yes
+#else
+#if SOLAR==yes
 #print Adding solar panels...
+#endif
 #else
 #print Adding pseudo-AMI meters...
 #endif
