@@ -27,7 +27,6 @@ global int32 SEQ_CUSTID 0;
 #else
 #print Adding pseudo-AMI meters...
 #endif
-#endif
 
 #include using(AREA=A,LOADID=1,PHASE=A,COUNT=4) "house.glm"
 #include using(AREA=A,LOADID=2,PHASE=B,COUNT=2) "house.glm"
