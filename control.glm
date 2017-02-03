@@ -1,77 +1,14 @@
-// IEEE 123 realtime loads
+// IEEE 123 switch configuration control
 // Copyright (C) 2016, Stanford University
 // Author: dchassin@slac.stanford.edu
 //
-module gismo;
 
 //
 // Line sensors
 //
-object line_sensor {
-	name sensor13to18;
-	parent line13to18;
-	measured_phase A;
-	location 200 ft;
-	object recorder {
-	        connection scada;
-	        table sensor;
-	        property "measured_voltage,measured_current,measured_power";
-	        interval 4;
-	        header_fieldnames "name";
-	};
-}
-object line_sensor {
-	name sensor51to151;
-	parent line51to151;
-	measured_phase A;
-	location 250 ft;
-	object recorder {
-	        connection scada;
-	        table sensor;
-	        property "measured_voltage,measured_current,measured_power";
-	        interval 4;
-	        header_fieldnames "name";
-	};
-}
-object line_sensor {
-	name sensor57to60;
-	parent line57to60;
-	measured_phase A;
-	location 700 ft;
-	object recorder {
-	        connection scada;
-	        table sensor;
-	        property "measured_voltage,measured_current,measured_power";
-	        interval 4;
-	        header_fieldnames "name";
-	};
-}
-object line_sensor {
-	name sensor67to97;
-	parent line67to97;
-	measured_phase A;
-	location 50 ft;
-	object recorder {
-	        connection scada;
-	        table sensor;
-	        property "measured_voltage,measured_current,measured_power";
-	        interval 4;
-	        header_fieldnames "name";
-	};
-}
-object line_sensor {
-	name sensor76to86;
-	parent line76to86;
-	measured_phase A;
-	location 350 ft;
-	object recorder {
-	        connection scada;
-	        table sensor;
-	        property "measured_voltage,measured_current,measured_power";
-	        interval 4;
-	        header_fieldnames "name";
-	};
-}
+#include using(PHASE=A) "sensors.glm"
+#include using(PHASE=B) "sensors.glm"
+#include using(PHASE=C) "sensors.glm"
 
 //
 // Switch coordinator
